@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/default.xhtml">
+	<ui:define name="article">
+		<p:panel id="pnMain" header="Produto x Pergunta">
+
+			<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+			<p:effect type="highlight" event="load" >  
+	            <f:param name="color" value="'red'" />  
+	        </p:effect>
+
+			<f:ajax render="@form">
+				<h:panelGroup styleClass="cardapioField">
+					<h:outputLabel for="grupoProduto" value="Grupo Produto: " />
+					<p:selectOneMenu value="#{produtoPerguntaMB.grupoSelecionado}"
+						required="true" id="grupoProduto" converter="grupoProduto">
+						<f:selectItem itemValue="#{null}" itemLabel="Selecione uma opção" />
+						<f:selectItems value="#{produtoPerguntaMB.gruposDisponiveis}"
+							var="grupo" itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
+					</p:selectOneMenu>
+					<p:message for="grupoProduto" styleClass="msg" />					
+				</h:panelGroup>
+			</f:ajax>
+			
+			<f:ajax render="@form">
+				<h:panelGroup styleClass="cardapioField">
+					<h:outputLabel for="produto" value="Produto: " />
+					<p:selectOneMenu value="#{produtoPerguntaMB.entity.produto}"
+						converter="produto" required="true" id="produto">
+						<f:selectItem itemValue="#{null}" itemLabel="Selecione uma opção" />
+						<f:selectItems value="#{produtoPerguntaMB.produtosDisponiveis}"
+							var="produto" itemLabel="#{produto.nome}" itemValue="#{produto}" />
+					</p:selectOneMenu>
+					<p:message for="produto" styleClass="msg" />					
+				</h:panelGroup>
+			</f:ajax>
+
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="pergunta" value="Perguntas: " />
+				<p:selectOneMenu value="#{produtoPerguntaMB.entity.pergunta}"
+					converter="pergunta" required="true" id="pergunta">
+					<f:selectItem itemValue="#{null}" itemLabel="Selecione uma opção" />
+					<f:selectItems value="#{produtoPerguntaMB.perguntasDisponiveis}"
+						var="pergunta" itemLabel="#{pergunta.descricao}"
+						itemValue="#{pergunta}" />
+				</p:selectOneMenu>
+				<p:message for="pergunta" styleClass="msg" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="flObrigatorio" value="Obrigatório: " />
+				<h:selectBooleanCheckbox id="flObrigatorio"
+					value="#{produtoPerguntaMB.entity.flRespostaObrigatoria}" />
+			</h:panelGroup>
+
+
+			<p:separator />
+
+			<p:panel styleClass="cardapioButton">
+				<p:commandButton id="persist" icon="ui-icon ui-icon-disk" value="Salvar"
+					actionListener="#{produtoPerguntaMB.actionPersist}" update="@form"
+					process=":cmForm:pnMain" />
+				<p:commandButton id="remove" icon="ui-icon ui-icon-closethick" value="Remover"
+					actionListener="#{produtoPerguntaMB.actionRemove}" update="@form"
+					process="@this" />
+				<p:commandButton id="new" icon="ui-icon ui-icon-document" value="Limpar"
+					actionListener="#{produtoPerguntaMB.actionNew}" immediate="true"
+					update="@form" />					
+			</p:panel>
+
+		</p:panel>
+
+		<p:dataTable emptyMessage="" value="#{produtoPerguntaMB.entityList}"
+			var="prodPerg" rows="10" paginator="true"
+			selection="#{produtoPerguntaMB.entity}" selectionMode="single"
+			rowKey="#{prodPerg}" paginatorPosition="top"
+			paginatorAlwaysVisible="false">
+			<p:ajax event="rowSelect" update="@form" />
+			<f:facet name="header">Lista Produtos/Perguntas</f:facet>
+			<p:column filterBy="#{prodPerg.produto.nome}"
+				filterMatchMode="contains" headerText="Produto">
+				<h:outputText value="#{prodPerg.produto.nome}" />
+			</p:column>
+			<p:column filterBy="#{prodPerg.pergunta.descricao}"
+				filterMatchMode="contains" headerText="Pergunta">
+				<h:outputText value="#{prodPerg.pergunta.descricao}" />
+			</p:column>
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>

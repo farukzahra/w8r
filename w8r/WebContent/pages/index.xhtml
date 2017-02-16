@@ -1,0 +1,23 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="W8R" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css"/>
+		</f:facet>			
+		<pm:view swatch="#{loginEmpresaMB.temaLogado}" id="main">
+			<pm:header title="W8R" />
+			<pm:content>
+				<h:form id="formMain">
+					<p:button value="Empresa" href="loginempresa.jsf" icon="forward" />
+					<p:button value="Cliente" href="logincliente.jsf" icon="forward" />
+
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	contentType="text/html">
+
+	<pm:page title="Teste" id="pageTeste">
+    	<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>	
+		<pm:view swatch="#{produtoMB.temaLogado}" id="mainView">
+			<pm:header swatch="#{produtoMB.temaLogado}" title="Pedido">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" role="back" />
+				</f:facet>
+			</pm:header>
+			
+				<h:form id="formLista">
+				
+                <p:galleria id="galleriaProdutos"
+							value="#{produtoMB.entityList}"
+							var="produto" effect="slide" effectSpeed="1000" panelWidth="500"
+							style="position:relative" panelHeight="300" 
+							rendered="#{not empty produtoMB.entityList}"
+							filmstripPosition="top" showCaptions="true" showOverlays="true">
+							<p:graphicImage value="\images#{produto.pathImagemDetalhada}"
+								title="#{produto.nome}" cache="false"
+								rendered="#{produto.pathImagemDetalhada != null}" />
+							<p:graphicImage value="\images#{produto.pathImagemPrincipal}"
+								title="#{produto.nome}" cache="false"
+								rendered="#{produto.pathImagemDetalhada == null}" />
+							<p:graphicImage value="/images/sem_imagem.png"
+								title="#{produto.nome}" cache="false"
+								rendered="#{produto.pathImagemPrincipal == null and produto.pathImagemDetalhada == null}" />
+
+							<p:galleriaOverlay title="#{produto.nome}">  
+		       					#{produto.descricao}
+		        				(<h:outputText value="#{produto.preco}">
+									<f:convertNumber type="currency" currencySymbol="R$"
+										locale="pt_BR" currencyCode="BRL" />
+								</h:outputText>)								
+								<p:rating value="#{produto.id}" disabled="true"/>
+							</p:galleriaOverlay>
+
+						</p:galleria>
+				
+				</h:form>
+
+			
+		</pm:view>
+	</pm:page>
+
+</f:view>

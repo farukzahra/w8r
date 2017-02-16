@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" xmlns:ui="http://java.sun.com/jsf/facelets" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="#{msg['cm.cardapio']}" loadingMessage="#{msg['cm.carregando']}">
+		<f:facet name="config">
+	    	$.mobile.listview.prototype.options.filterPlaceholder =  ' ';
+		</f:facet>
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+
+
+		<pm:view swatch="#{cardapioMB.temaLogado}" id="viewProdutos" contentType="text/html">
+			<pm:header swatch="#{cardapioMB.temaLogado}" title="#{msg['cm.grupo']} (#{cardapioMB.grupoProdutoSelecionado.nome})">
+				<f:facet name="left">
+					<p:button value="#{msg['cm.voltar']}" icon="back" href="cardapio.jsf" />
+				</f:facet>
+				<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+				<script src="../galleria/galleria-1.2.6.min.js"></script>
+
+				<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+				<script>
+					$(document).ready(
+							function() {
+								if ($.browser.mozilla) {
+									$.each($('.corrigirImagem'), function(key,
+											value) {
+										console.log(value.src);
+										value.src = value.src.replace(
+												'w8r/pages/%5Cimages/',
+												'images/');
+										console.log(value.src);
+									});
+								}
+								$('.ui-li .ui-btn-text a.ui-link-inherit').css(
+										'white-space', 'normal');
+							});
+				</script>
+			</pm:header>
+			<pm:content>
+				<style>
+.ui-body-b .ui-link:hover {
+	color: #FFFFFF;
+}
+
+.ui-body-b .ui-link:active {
+	color: #FFFFFF;
+}
+
+.ui-body-b .ui-link:visited {
+	color: #FFFFFF;
+}
+
+.ui-body-b .ui-link {
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.cred {
+	margin-top: 20px;
+	font-size: 12px;
+	color: #555
+}
+/* This rule is read by Galleria to define the gallery height: */
+.galleria-container {
+	background: transparent;
+}
+
+.galleria-image-nav-right {
+	color: black;
+}
+
+.galleria-image-nav-left {
+	
+}
+/* some extra styles for the layer */
+.galleria-layer div {
+	text-align: left;
+	top: 10px;
+	left: 10px;
+	padding: 10px;
+	position: relative;
+	background: url(../images/bg.png);
+	color: #fff
+}
+
+.galleria-layer h2 {
+	margin: 0 0 8px;
+	font-size: 22px;
+	line-height: 1;
+}
+
+.galleria-layer p {
+	margin: 0
+}
+
+.galleria-stage {
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	left: 10px;
+	right: 10px;
+	overflow: hidden;
+}
+
+.preco {
+	background: #1C4160;
+	width: 450px;
+	margin: auto;
+	padding: 5px;
+	text-align: center;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+}
+</style>
+
+				<h:form id="formMain" rendered="#{cardapioMB.produtoDestaque}">
+
+					<div class="content" align="center">
+						<div id="galleria">
+							<ui:repeat var="produto" value="#{cardapioMB.produtosDestaque}">
+								<div class="image">
+									<a><img src="/images#{produto.pathImagemDetalhada}" longdesc="pedido.jsf?idProduto=#{produto.id}" /></a>
+									<div class="layer">
+										<div>
+											<a href="pedido.jsf?idProduto=#{produto.id}"><h2>#{produto.nome}</h2></a>
+											<p>												
+												<h:outputText value="#{produto.preco}">
+													<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+												</h:outputText>												
+											</p>
+										</div>
+									</div>
+									<div class="link">pedido.jsf?idProduto=#{produto.id}</div>
+								</div>
+							</ui:repeat>
+						</div>
+					</div>
+				</h:form>
+
+				<br />
+
+				<h:form id="formLista">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" id="mensagens" />
+					<p:dataList type="inset" title="#{cardapioMB.grupoProdutoSelecionado.nome}" titleSwatch="#{cardapioMB.temaLogado}"
+						value="#{cardapioMB.produtosPorGrupo}" var="produto">
+						<f:attribute name="filter" value="true" />
+						<p:column>
+							<h:commandLink action="pedido.jsf">
+								<p:graphicImage id="imagemPreViewPrinc" cache="true" rendered="#{produto.pathImagemPrincipal != null}"
+									value="\images#{produto.pathImagemPrincipal}" height="80" width="100" styleClass="corrigirImagem" />
+								<div>
+									<h:outputLabel value="#{produto.nome}" />
+								</div>
+								<div style="margin-top: 5px;">
+									<h:outputLabel value="#{produto.preco}" style="font-size: 14px; margin-top: 0px;" styleClass="preco">
+										<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+									</h:outputLabel>
+								</div>
+								<f:setPropertyActionListener value="#{produto}" target="#{pedidoMB.entity.produto}" />
+								<f:param name="idProduto" value="#{produto.id}" />
+							</h:commandLink>
+						</p:column>
+					</p:dataList>
+				</h:form>
+
+				<script type="text/javascript">
+					Galleria
+							.loadTheme('../galleria/themes/classic/galleria.classic.js');
+					$('#galleria').galleria({
+						transition : 'fadeslide',
+						imageCrop : false,
+						height : 320,
+						autoplay : 2500,
+						swipe : true,
+						thumbnails : false,
+						popupLinks : true,
+
+						dataConfig : function(img) {
+							// return the layer data, based on our HTML structure
+							return {
+								layer : $(img).parent().next('.layer').html()
+							}
+						}
+					});
+				</script>
+
+			</pm:content>
+		</pm:view>
+	</pm:page>
+
+</f:view>

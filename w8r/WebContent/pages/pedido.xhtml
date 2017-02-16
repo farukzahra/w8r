@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="#{msg['cm.cardapio']}" loadingMessage="#{msg['cm.carregando']}">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+		<script>
+			$(document).ready(
+					function() {
+
+						if ($.browser.mozilla) {
+							$.each($('.corrigirImagem'), function(key, value) {
+								console.log(value.src);
+								value.src = value.src.replace(
+										'w8r/pages/%5Cimages/', 'images/');
+								console.log(value.src);
+							});
+						}
+					});
+		</script>
+
+		<script type="text/javascript">
+			//<![CDATA[
+			function diminueQtd() {
+				quantidade = parseInt($('#formLista\\:listView2\\:qtd').val());
+				if (quantidade > 1) {
+					quantidade = quantidade - 1;
+				}
+				$('#formLista\\:listView2\\:qtd').val(quantidade);
+			}
+
+			function aumentaQtd() {
+				quantidade = parseInt($('#formLista\\:listView2\\:qtd').val());
+				if (quantidade < 10) {
+					quantidade = quantidade + 1;
+				}
+				$('#formLista\\:listView2\\:qtd').val(quantidade);
+			}
+			//]]>
+		</script>
+		<pm:view swatch="#{pedidoMB.temaLogado}" id="mainView">
+			<pm:header swatch="#{pedidoMB.temaLogado}" title="#{pedidoMB.entity.produto.nome}">
+				<f:facet name="left">
+					<p:button value="#{msg['cm.voltar']}" icon="back" href="produtosgrupo.jsf?idGrupo=#{pedidoMB.entity.produto.grupoProduto.id}"
+						includeViewParams="true" />
+				</f:facet>
+				<f:facet name="right">
+					<p:button value="#{msg['cm.cardapio']}" icon="home" role="pop" href="cardapio.jsf" />
+				</f:facet>
+			</pm:header>
+			<pm:content id="content">
+				<h:form id="formLista">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" id="msgGeral" />
+					<div align="center">
+						<p:graphicImage value="\images#{pedidoMB.entity.produto.pathImagemDetalhada}" title="#{pedidoMB.entity.produto.nome}" cache="false"
+							height="250" rendered="#{pedidoMB.entity.produto.pathImagemDetalhada != null}" styleClass="corrigirImagem" />
+					</div>
+
+
+					<p:dataList type="inset" title="#{msg['cm.perguntas']}" titleSwatch="#{pedidoMB.temaLogado}" id="listView2"
+						rendered="#{pedidoMB.empresaReferencia.flModuloPedido and pedidoMB.fazerPedidos}">
+						<p:column>
+							<pm:field>
+								<div>
+									<h:outputLabel for="qtd" value="#{msg['cm.pedido.quantidade']}:" />
+								</div>
+								<div>
+									<p:panelGrid style="">
+										<p:row>
+											<p:column>
+												<p:button id="diminuir" onclick="diminueQtd()" value="-" />
+											</p:column>
+											<p:column style="text-align:center">
+												<p:inputText id="qtd" value="#{pedidoMB.quantidade}" size="2" />
+											</p:column>
+											<p:column>
+												<p:button id="aumentar" onclick="aumentaQtd()" value="+" />
+											</p:column>
+
+										</p:row>
+									</p:panelGrid>
+									<p:message for="qtd" />
+
+								</div>
+							</pm:field>
+						</p:column>
+					</p:dataList>
+
+					<p:dataList type="inset" title="#{msg['cm.perguntas']}" titleSwatch="#{pedidoMB.temaLogado}" value="#{pedidoMB.entity.produto.produtoPerguntas}"
+						var="prodPergunta" id="listView" rendered="#{pedidoMB.empresaReferencia.flModuloPedido and pedidoMB.fazerPedidos}">
+						<p:column>
+
+							<pm:field rendered="#{prodPergunta.pergunta.tipoResposta == prodPergunta.pergunta.tipoRespostaSimOuNao}">
+								<div>
+									<p:graphicImage value="/images/req.png" rendered="#{prodPergunta.flRespostaObrigatoria}" style="margin-right: 5px;" />
+									<h:outputLabel for="pergSN" value="#{prodPergunta.pergunta.descricao}:" style="width:80%; display:inline-block;" styleClass="ui-input-text" />
+								</div>
+								<div>
+									<p:selectOneRadio id="pergSN" layout="lineDirection" value="#{prodPergunta.respostaCliente}" required="#{prodPergunta.flRespostaObrigatoria}">
+										<f:selectItem itemLabel="#{msg['cm.sim']}" itemValue="Sim" />
+										<f:selectItem itemLabel="#{msg['cm.nao']}" itemValue="Não" />
+									</p:selectOneRadio>
+									<p:message for="pergSN" />
+								</div>
+							</pm:field>
+							<pm:field rendered="#{prodPergunta.pergunta.tipoResposta == prodPergunta.pergunta.tipoRespostaUmaEmVarias}">
+								<div>
+									<p:graphicImage value="/images/req.png" rendered="#{prodPergunta.flRespostaObrigatoria}" style="margin-right: 5px;" />
+									<h:outputLabel for="pergUV" value="#{prodPergunta.pergunta.descricao}:" style="width:80%; display:inline-block;" />
+								</div>
+								<div>
+									<h:selectOneMenu id="pergUV" value="#{prodPergunta.respostaCliente}" required="#{prodPergunta.flRespostaObrigatoria}">
+										<f:selectItem itemValue="#{null}" itemLabel="#{msg['cm.selItem']}" />
+										<f:selectItems value="#{prodPergunta.pergunta.respostas}" var="resposta" itemValue="#{resposta.descricaoOriginal}"
+											itemLabel="#{resposta.descricao}" />
+									</h:selectOneMenu>
+									<p:message for="pergUV" />
+								</div>
+							</pm:field>
+							<pm:field rendered="#{prodPergunta.pergunta.tipoResposta == prodPergunta.pergunta.tipoRespostaQuantidade}">
+								<div>
+									<p:graphicImage value="/images/req.png" rendered="#{prodPergunta.flRespostaObrigatoria}" style="margin-right: 5px;" />
+									<h:outputLabel for="pergQt" value="#{prodPergunta.pergunta.descricao}:" style="width:80%; display:inline-block;" />
+								</div>
+								<div>
+									<p:inputText id="pergQt" value="#{prodPergunta.respostaCliente}" required="#{prodPergunta.flRespostaObrigatoria}">
+										<f:validateRegex pattern="[0-9]*" />
+									</p:inputText>
+									<p:message for="pergQt" />
+								</div>
+							</pm:field>
+							<pm:field rendered="#{prodPergunta.pergunta.tipoResposta == prodPergunta.pergunta.tipoRespostaTexto}">
+								<div>
+									<p:graphicImage value="/images/req.png" rendered="#{prodPergunta.flRespostaObrigatoria}" style="margin-right: 5px;" />
+									<h:outputLabel for="pergTx" value="#{prodPergunta.pergunta.descricao}:" style="width:80%; display:inline-block;" />
+								</div>
+								<div>
+									<p:inputText id="pergTx" value="#{prodPergunta.respostaCliente}" required="#{prodPergunta.flRespostaObrigatoria}" maxlength="140" />
+									<p:message for="pergTx" />
+								</div>
+							</pm:field>
+						</p:column>
+					</p:dataList>
+
+					<p:commandButton value="#{msg['cm.realizpedido']}" icon="check" actionListener="#{pedidoMB.fazerPedido}" process="formLista" update="formLista"
+						rendered="#{pedidoMB.empresaReferencia.flModuloPedido and pedidoMB.fazerPedidos}">
+						<p:confirm header="Confirmação" message="#{msg['cm.pedido.pergunta']}" icon="ui-icon-info" />
+					</p:commandButton>
+
+					<p:confirmDialog global="true" rendered="#{pedidoMB.empresaReferencia.flModuloPedido and pedidoMB.fazerPedidos}">
+						<p:commandButton value="#{msg['cm.sim']}" type="button" styleClass="ui-confirmdialog-yes" icon="check">
+							<f:attribute name="swatch" value="b" />
+						</p:commandButton>
+						<p:commandButton value="#{msg['cm.nao']}" type="button" styleClass="ui-confirmdialog-no" icon="delete">
+							<f:attribute name="swatch" value="e" />
+						</p:commandButton>
+					</p:confirmDialog>
+
+					<p:separator />
+					<h:panelGrid columns="2">
+						<p:column>
+
+							<h5>
+								<h:outputLabel value="#{pedidoMB.entity.produto.descricao}" />
+							</h5>
+						</p:column>
+						<p:column>
+							<h5>
+								<h:outputLabel value="#{msg['cm.ganhe']} #{pedidoMB.entity.produto.qtdeMensagensDadas} #{msg['cm.mensagens']}"
+									rendered="#{pedidoMB.empresaReferencia.flModuloMensagem}" />
+								<p:separator />
+								<h:outputText value="#{pedidoMB.entity.produto.preco}">
+									<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+								</h:outputText>
+							</h5>
+
+						</p:column>
+					</h:panelGrid>
+				</h:form>
+
+			</pm:content>
+		</pm:view>
+	</pm:page>
+
+</f:view>

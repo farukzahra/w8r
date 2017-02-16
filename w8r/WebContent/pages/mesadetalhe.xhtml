@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Cardapio" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<script type="text/javascript">
+			$(document).bind("mobileinit", function() {
+				$.mobile.listview.prototype.options.headerTheme = "d";
+			});
+		</script>
+		<pm:view swatch="#{principalEmpresaMB.temaLogado}">
+			<pm:header swatch="#{principalEmpresaMB.temaLogado}" title="Dados Mesa #{principalEmpresaMB.mesaSelecionada.numeroMesa}">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="principalempresa.jsf?reverse=true" />
+				</f:facet>
+			</pm:header>
+			<pm:content>
+				<h:form id="formDetalheMesa">
+
+					<p:confirmDialog global="true">
+						<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" inline="true" icon="check">
+							<f:attribute name="swatch" value="b" />
+						</p:commandButton>
+						<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" inline="true" icon="delete" />
+					</p:confirmDialog>
+
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+					<pm:field>
+						<h3>
+							<h:outputText styleClass="ui-li-count" value="#{principalEmpresaMB.gastoMesaSelecionada}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+							</h:outputText>
+						</h3>
+						<h5>
+							<h:outputLabel for="msgs" value="Mensagens Disponíveis: " />
+							<h:outputText id="msgs" value="#{principalEmpresaMB.mesaSelecionada.qtdeMensagensGanhas}" />
+						</h5>
+						<p:separator />
+						<h5>
+							<h:outputLabel for="dtUltFech" value="Data Último Fechamento: " />
+							<h:outputText id="dtUltFech" value="#{principalEmpresaMB.mesaSelecionada.dataUltimoFechamento}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR" timeZone="America/Sao_Paulo" />
+							</h:outputText>
+						</h5>
+					</pm:field>
+
+					<p:commandButton value="Fechar" icon="check" update="formDetalheMesa dtUltFech" actionListener="#{principalEmpresaMB.fecharMesa}">
+						<p:confirm header="Confirmação" message="Tem certeza que deseja fechar a Mesa?" />
+					</p:commandButton>
+
+					<p:commandButton value="Reabrir" icon="check" update="formDetalheMesa dtUltFech" actionListener="#{principalEmpresaMB.reAbrirMesa}">
+						<p:confirm header="Confirmação" message="Tem certeza que deseja reabrir a Mesa?" />
+					</p:commandButton>
+
+					<p:commandButton value="Login" actionListener="#{loginMesaMB.redirectComNumeroMesa}" icon="forward">
+						<f:attribute name="numeroMesa" value="#{principalEmpresaMB.mesaSelecionada.numeroMesa}" />
+					</p:commandButton>
+					<p:dataList type="inset" title="Pedidos Entregue" titleSwatch="#{principalEmpresaMB.temaLogado}" id="dlPedidos"
+						value="#{principalEmpresaMB.pedidosMesaSelecionada}" var="pedido">
+						<f:facet name="header">
+							<div style="text-align:center">Pedidos Entregues</div>
+						</f:facet>
+						<p align="center">
+							<h:outputLabel value="#{pedido.produto.codExterno} - " rendered="#{pedido.produto.codExterno != null}"/> <h:outputLabel value="#{pedido.produto.nome}" />
+						</p>
+						<p align="center">
+							<h:outputLabel value="#{pedido.statusPedido.traducao}" />
+						</p>
+						<p align="center">
+							<h:outputText value="Hora pedido: " style="font-weight:bold" />
+							<h:outputText value="#{pedido.dataPedido}">
+								<f:convertDateTime type="date" locale="pt_BR" timeZone="America/Sao_Paulo" timeStyle="medium" pattern="HH:mm" />
+							</h:outputText>
+						</p>
+						<p align="center">
+							<h:outputText value="Qtd. Msg. Ganhas: " style="font-weight:bold" />
+							<h:outputText value="#{pedido.qtdeMensagensGanhas}" />
+						</p>
+						<p align="center">
+							<h:outputText value="Quantidade Pedido: " style="font-weight:bold" />
+							<h:outputLabel value="#{pedido.quantidade}">
+							</h:outputLabel>
+						</p>
+						<p align="center">
+							<h:outputLabel value="#{pedido.precoComQtd}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+							</h:outputLabel>
+						</p>
+
+
+					</p:dataList>
+
+					<p:dataList type="inset" title="Pedidos Pendentes" titleSwatch="#{principalEmpresaMB.temaLogado}" id="dlPedidos2"
+						value="#{principalEmpresaMB.pedidosNaoEntregueMesaSelecionada}" var="pedido">
+						<f:facet name="header">							
+							<div style="text-align:center">Pedidos Pendentes</div>
+						</f:facet>
+						<p align="center">
+							<h:outputLabel value="#{pedido.produto.codExterno} - " rendered="#{pedido.produto.codExterno != null}"/> <h:outputLabel value="#{pedido.produto.nome}" />
+						</p>
+						<p align="center">
+							<h:outputLabel value="#{pedido.statusPedido.traducao}" />
+						</p>
+						<p align="center">
+							<h:outputText value="Hora pedido: " style="font-weight:bold" />
+							<h:outputText value="#{pedido.dataPedido}">
+								<f:convertDateTime type="date" locale="pt_BR" timeZone="America/Sao_Paulo" timeStyle="medium" pattern="HH:mm" />
+							</h:outputText>
+						</p>
+						<p align="center">
+							<h:outputText value="Qtd. Msg. Ganhas: " style="font-weight:bold" />
+							<h:outputText value="#{pedido.qtdeMensagensGanhas}" />
+						</p>
+						<p align="center">
+							<h:outputText value="Quantidade Pedido: " style="font-weight:bold" />
+							<h:outputLabel value="#{pedido.quantidade}">
+							</h:outputLabel>
+						</p>
+						<p align="center">
+							<h:outputLabel value="#{pedido.precoComQtd}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+							</h:outputLabel>
+						</p>
+
+
+					</p:dataList>
+				</h:form>
+			</pm:content>
+			<h:form>
+			</h:form>
+		</pm:view>
+	</pm:page>
+</f:view>

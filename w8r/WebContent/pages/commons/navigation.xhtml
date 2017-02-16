@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition>
+
+	<p:tabMenu id="tbMenuNav" rendered="#{empresaMB.empresaLogada.perfil == empresaMB.empresaLogada.perfilNormal || empresaMB.empresaLogada.perfil == empresaMB.empresaLogada.perfilAdministrador}">
+		<p:menuitem value="Home" url="principalempresa.jsf" icon="ui-icon ui-icon-home" />
+		<p:menuitem value="Pedidos" url="listapedido.jsf" icon="ui-icon ui-icon-note" />
+		<p:menuitem value="Empresa" url="empresa.jsf" icon="ui-icon ui-icon-suitcase"
+			rendered="#{empresaMB.empresaLogada.perfil == empresaMB.empresaLogada.perfilAdministrador}"/>
+		<p:menuitem value="Financeiro" url="financeiro.jsf" icon="ui-icon ui-icon-bookmark" />
+		<p:menuitem value="Propaganda" url="propaganda.jsf" icon="ui-icon ui-icon-signal-diag" />
+		<p:menuitem value="#{mesaMB.getResourcesBundle('cm.mesas')}" url="mesa.jsf" icon="ui-icon ui-icon-calculator" />
+		<p:menuitem value="Grupos Produtos" url="grupoproduto.jsf" icon="ui-icon ui-icon-note" />
+		<p:menuitem value="Produtos" url="produto.jsf" icon="ui-icon ui-icon-cart" />
+		<p:menuitem value="Perguntas" url="pergunta.jsf" icon="ui-icon ui-icon-help" />
+		<p:menuitem value="Respostas" url="resposta.jsf" icon="ui-icon ui-icon-notice" />
+		<p:menuitem value="Produtos Perguntas" url="produtopergunta.jsf" icon="ui-icon ui-icon-comment" />
+		<p:menuitem value="Logoff" url="loginempresa.jsf" icon="ui-icon ui-icon-power" />
+	</p:tabMenu>
+	
+	<p:tabMenu id="tbMenuNav2" rendered="#{empresaMB.empresaLogada.perfil == empresaMB.empresaLogada.perfilCozinha}">
+		<p:menuitem value="Pedidos" url="listapedido.jsf" icon="ui-icon ui-icon-note" />
+		<p:menuitem value="#{mesaMB.getResourcesBundle('cm.mesas')}" url="mesa.jsf" icon="ui-icon ui-icon-calculator" />	
+		<p:menuitem value="Logoff" url="loginempresa.jsf" icon="ui-icon ui-icon-power" />				
+	</p:tabMenu>
+
+</ui:composition>
+</html>

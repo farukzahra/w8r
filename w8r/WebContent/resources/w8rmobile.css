@@ -1,0 +1,45 @@
+@CHARSET "ISO-8859-1";
+
+.branco {
+	background: white !important;
+}
+
+.verde {
+	background: #D2F4D2 !important;
+}
+
+.ui-message-info, .ui-message-error, .ui-message-warn, .ui-message-fatal {
+	float: right;
+}
+
+.ui-field-contain input.ui-input-text, .ui-field-contain textarea.ui-input-text, .ui-field-contain .ui-input-search {
+    display: inline-block;
+    width: 57%;
+}
+
+.ui-select .ui-btn {
+    margin-left: 0;
+}
+
+.msgEnviada{
+	float: left;
+    text-align: left;
+    width: 50%;
+}
+.msgLogada{
+	float: right;
+    text-align: right;
+    width: 50%;
+}
+
+.msgData{
+	font-size: 10px;
+}
+.msgMensagem{
+	font-weight: bold;
+}
+	
+
+.dtMensagens{
+	width: 100%;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" template="/templates/default.xhtml">
+	<ui:define name="article">
+
+		<p:accordionPanel id="apPrincipal">
+			<p:tab title="Dados">
+
+				<p:panel id="pnMain" header="Cadastro de #{mesaMB.getResourcesBundle('cm.mesa')} (#{mesaMB.empresaLogada.nome})">
+
+					<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+					<p:effect type="highlight" event="load">
+						<f:param name="color" value="'red'" />
+					</p:effect>
+
+					<h:panelGroup styleClass="cardapioField">
+						<h:outputLabel for="numeroMesa" value="Número da #{mesaMB.getResourcesBundle('cm.mesa')}: " />
+						<p:inputText id="numeroMesa" value="#{mesaMB.entity.numeroMesa}" required="true" label="Número da #{mesaMB.getResourcesBundle('cm.mesa')}">
+							<f:convertNumber />
+						</p:inputText>
+						<p:message for="numeroMesa" />
+					</h:panelGroup>
+
+					<h:panelGroup styleClass="cardapioField">
+						<h:outputLabel for="senha" value="Senha: " />
+						<p:inputText id="senha" value="#{mesaMB.entity.senha}" required="true" />
+						<p:message for="senha" />
+					</h:panelGroup>
+
+					<h:panelGroup styleClass="cardapioField">
+						<h:outputLabel for="status" value="Status: " />
+						<p:selectOneRadio id="status" value="#{mesaMB.entity.status}" required="true">
+							<f:selectItem itemLabel="Ativo" itemValue="#{mesaMB.entity.statusAtivo}" />
+							<f:selectItem itemLabel="Inativo" itemValue="#{mesaMB.entity.statusInativo}" />
+						</p:selectOneRadio>
+						<p:message for="status" />
+					</h:panelGroup>
+
+					<p:separator />
+					<p:panel styleClass="cardapioButton">
+						<p:commandButton id="persist" icon="ui-icon ui-icon-disk" value="Salvar" actionListener="#{mesaMB.actionPersist}" update=":cmForm:apPrincipal"
+							process=":cmForm:apPrincipal:pnMain" />
+						<p:commandButton id="remove" icon="ui-icon ui-icon-closethick" value="Remover" actionListener="#{mesaMB.actionRemove}" update=":cmForm:apPrincipal"
+							process="@this" />
+						<p:commandButton id="new" icon="ui-icon ui-icon-document" value="Limpar" actionListener="#{mesaMB.actionNew}" immediate="true" update=":cmForm:apPrincipal" />
+					</p:panel>
+				</p:panel>
+
+				<p:dataTable emptyMessage="" value="#{mesaMB.entityList}" var="mesa" rows="10" paginator="true" selection="#{mesaMB.entity}"
+					selectionMode="single" rowKey="#{mesa}" paginatorPosition="top" paginatorAlwaysVisible="false">
+					<p:ajax event="rowSelect" update=":cmForm:apPrincipal" />
+					<f:facet name="header">#{mesaMB.getResourcesBundle('cm.mesas')}</f:facet>
+
+					<p:column filterBy="#{mesa.numeroMesa}" filterMatchMode="contains" headerText="#{mesaMB.getResourcesBundle('cm.mesa')}">
+						<h:outputText value="#{mesa.numeroMesa}" />
+					</p:column>
+					<p:column filterBy="#{mesa.status}" filterMatchMode="contains" headerText="Status">
+						<h:outputText value="#{mesa.status}" />
+					</p:column>
+				</p:dataTable>
+			</p:tab>
+			<p:tab title="Senhas">
+				
+				<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+				<p:effect type="highlight" event="load">
+					<f:param name="color" value="'red'" />
+				</p:effect>
+
+				
+				<h:panelGroup styleClass="cardapioField">
+					<p:commandButton update=":cmForm:apPrincipal:pgMesas" icon="ui-icon ui-icon-unlocked" process="@this" value="Gerar Todas Senhas" actionListener="#{mesaMB.actionGerarTodasSenhas}"/>
+				</h:panelGroup>
+
+				<p:dataGrid var="mesa" id="pgMesas" value="#{mesaMB.entityList}" columns="3" rows="12" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="9,12,15">
+
+					<p:panel header="#{mesa.numeroMesa}" style="text-align:center" id="pnMesasDetalhes">
+						<h:panelGrid columns="1" style="width:100%">
+							<p:graphicImage value="/images/cars/#{car.manufacturer}.jpg" />
+
+							<h:outputLabel value="Número da #{mesaMB.getResourcesBundle('cm.mesa')}: " />
+							<p:inputText value="#{mesa.numeroMesa}" />
+
+							<h:outputLabel value="Senha: " />
+							<p:inputText value="#{mesa.senha}" />
+
+							<p:panel style="border:0">
+								<p:commandButton process=":cmForm:apPrincipal:pgMesas:pnMesasDetalhes" icon="ui-icon ui-icon-disk" id="btSalvarMesaDet">
+									<f:setPropertyActionListener value="#{mesa}" target="#{mesaMB.entityDetalhes}" />
+								</p:commandButton>
+								<p:commandButton update=":cmForm:apPrincipal:pgMesas:pnMesasDetalhes" icon="ui-icon ui-icon-unlocked" process="@this" id="btSenhaMesaDet">
+									<f:setPropertyActionListener value="#{mesa}" target="#{mesaMB.entitySenha}" />
+								</p:commandButton>
+								<p:tooltip for="btSalvarMesaDet" value="Salvar" showEffect="fade" hideEffect="fade" />
+								<p:tooltip for="btSenhaMesaDet" value="Gerar Nova Senha" showEffect="fade" hideEffect="fade" />
+							</p:panel>
+						</h:panelGrid>
+					</p:panel>
+
+				</p:dataGrid>
+			</p:tab>
+		</p:accordionPanel>
+
+
+	</ui:define>
+</ui:composition>

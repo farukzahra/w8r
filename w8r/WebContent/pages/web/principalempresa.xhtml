@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" template="/templates/default.xhtml">
+	<ui:define name="article">
+
+		<p:poll listener="#{principalEmpresaMB.carregarPoll}" process="@this" update="solicitacaoMesas,pnMesasAbertas" interval="30" />
+
+		<p:panel id="pnSolicitacao" header="#{principalEmpresaMB.getResourcesBundle('cm.mesas')} Chamando o Garçom"
+			style="width:50%; display: inline-block; margin-right: 20px; margin-bottom: 20px;">
+			<p:dataTable id="solicitacaoMesas" value="#{principalEmpresaMB.solicitacoes}" var="solicitacao" emptyMessage="">
+				<p:column filterBy="#{solicitacao.mesa.numeroMesa}" filterMatchMode="contains" headerText="#{principalEmpresaMB.getResourcesBundle('cm.mesa')}"
+					sortBy="#{solicitacao.mesa.numeroMesa}" style="text-align:center">
+					<h:outputText value="#{solicitacao.mesa.numeroMesa}" />
+				</p:column>
+				<p:column filterBy="#{solicitacao.dataCadastroStr}" filterMatchMode="contains" headerText="Data/Hora" sortBy="#{solicitacao.dataCadastroStr}"
+					style="text-align:center">
+					<h:outputText value="#{solicitacao.dataCadastroStr}" />
+				</p:column>
+				<p:column filterBy="#{solicitacao.tipo}" filterMatchMode="contains" headerText="Tipo" sortBy="#{solicitacao.tipo}" style="text-align:center">
+					<h:outputText value="#{solicitacao.tipo}" />
+				</p:column>
+				<p:column filterBy="#{solicitacao.descricao}" filterMatchMode="contains" headerText="Observações" sortBy="#{solicitacao.descricao}"
+					style="text-align:center">
+					<h:outputText value="#{solicitacao.descricao}" />
+				</p:column>
+				<p:column headerText="Atendimento" style="text-align:center">
+					<p:commandButton id="atenderMesa" icon="ui-icon ui-icon-star" value="Atender Mesa" action="#{principalEmpresaMB.atenderMesa(solicitacao)}"
+						update="solicitacaoMesas" process="@this" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+
+		<p:panel id="pnMesasAbertas" header="#{principalEmpresaMB.getResourcesBundle('cm.mesas')} Abertas"
+			style="width:40%; display: inline-block; margin-bottom: 20px;">
+			<p:dataTable id="mesasAbertas" value="#{principalEmpresaMB.mesasAbertas}" var="mesa" emptyMessage="">
+				<p:column filterBy="#{mesa.numeroMesa}" filterMatchMode="contains" headerText="#{principalEmpresaMB.getResourcesBundle('cm.mesa')}"
+					sortBy="#{mesa.numeroMesa}" style="text-align:center">
+					<h:outputText value="#{mesa.numeroMesa}" />
+				</p:column>
+				<p:column filterBy="#{mesa.descricao}" filterMatchMode="contains" headerText="Descrição" sortBy="#{mesa.descricao}" style="text-align:center">
+					<h:outputText value="#{mesa.descricao}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+
+		<p:panel id="pnMain" header="Controle Mesas">
+
+			<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+			<p:effect type="highlight" event="load">
+				<f:param name="color" value="'red'" />
+			</p:effect>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="mesa" value="#{principalEmpresaMB.getResourcesBundle('cm.mesa')}: " />
+				<f:ajax render="@form">
+					<p:selectOneMenu value="#{principalEmpresaMB.mesaSelecionada}" required="true" id="mesa" converter="mesa">
+						<f:selectItem itemValue="#{null}" itemLabel="Selecione uma opção" />
+						<f:selectItems value="#{principalEmpresaMB.mesasAtivas}" var="mesa" itemLabel="#{mesa.numeroMesa}" itemValue="#{mesa}" />
+					</p:selectOneMenu>
+				</f:ajax>
+				<p:message for="mesa" styleClass="msg" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="senhaMesa" value="Senha: " />
+				<h:outputLabel id="senhaMesa" value="#{principalEmpresaMB.mesaSelecionada.senha}" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="valorPedidos" value="Pedidos Entregues: " />
+				<h:outputText id="valorPedidos" value="#{principalEmpresaMB.gastoMesaSelecionada}">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+				</h:outputText>
+			</h:panelGroup>
+
+
+			<p:separator />
+
+			<p:panel>
+				<p:commandButton id="fecharMesa" icon="ui-icon ui-icon-locked" value="Fechar #{principalEmpresaMB.getResourcesBundle('cm.mesa')}"
+					onclick="confirmation.show()" />
+				<p:commandButton id="reabirMesa" icon="ui-icon ui-icon-unlocked" value="Reabrir #{principalEmpresaMB.getResourcesBundle('cm.mesa')}"
+					onclick="confirmation3.show()" />
+			</p:panel>
+
+			<p:confirmDialog message="Deseja realmente fechar?" header="Fechar #{principalEmpresaMB.getResourcesBundle('cm.mesa')}" severity="alert"
+				widgetVar="confirmation">
+				<p:commandButton value="Sim" oncomplete="confirmation.hide()" icon="ui-icon ui-icon-check" onclick="confirmation.show()"
+					actionListener="#{principalEmpresaMB.fecharMesa}" process=":cmForm:pnMain" update="@form" />
+				<p:commandButton value="Não" onclick="confirmation.hide()" icon="ui-icon ui-icon-close" type="button" />
+			</p:confirmDialog>
+
+			<p:confirmDialog message="Deseja realmente fechar TUDO?" header="Fechar #{principalEmpresaMB.getResourcesBundle('cm.mesa')}" severity="alert"
+				widgetVar="confirmation2">
+				<p:commandButton value="Sim" oncomplete="confirmation2.hide()" icon="ui-icon ui-icon-check" onclick="confirmation2.show()"
+					actionListener="#{principalEmpresaMB.fecharMesas}" process="@this" />
+				<p:commandButton value="Não" onclick="confirmation2.hide()" icon="ui-icon ui-icon-close" type="button" />
+			</p:confirmDialog>
+
+			<p:confirmDialog message="Deseja realmente reabrir?" header="Reabrir #{principalEmpresaMB.getResourcesBundle('cm.mesa')}" severity="alert"
+				widgetVar="confirmation3">
+				<p:commandButton value="Sim" oncomplete="confirmation3.hide()" icon="ui-icon ui-icon-check" onclick="confirmation3.show()"
+					actionListener="#{principalEmpresaMB.reAbrirMesa}" process=":cmForm:pnMain" />
+				<p:commandButton value="Não" onclick="confirmation3.hide()" icon="ui-icon ui-icon-close" type="button" />
+			</p:confirmDialog>
+
+		</p:panel>
+		<p:dataTable title="Pedidos Geral" id="pedidosGeral" value="#{principalEmpresaMB.pedidosTodos}" var="pedido" emptyMessage="">
+			<p:column filterBy="#{pedido.produto.grupoProduto.nome}" filterMatchMode="contains" headerText="Grupo" sortBy="#{pedido.produto.grupoProduto.nome}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.produto.grupoProduto.nome}" />
+			</p:column>
+			<p:column filterBy="#{pedido.produto.nome}" filterMatchMode="contains" headerText="Produto" sortBy="#{pedido.produto.nome}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.produto.nome}" />
+			</p:column>
+			<p:column filterBy="#{pedido.produto.preco}" filterMatchMode="contains" headerText="Preço" sortBy="#{pedido.produto.preco}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.produto.preco}">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+				</h:outputText>
+			</p:column>
+			<p:column filterBy="#{pedido.quantidade}" filterMatchMode="contains" headerText="Quantidade" sortBy="#{pedido.quantidade}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.quantidade}" />
+			</p:column>
+			<p:column filterBy="#{pedido.precoComQtd}" filterMatchMode="contains" headerText="Preço Com Qtd." sortBy="#{pedido.precoComQtd}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.precoComQtd}">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+				</h:outputText>
+			</p:column>
+			<p:column filterBy="#{pedido.mesa.numeroMesa}" filterMatchMode="contains" headerText="Numero #{principalEmpresaMB.getResourcesBundle('cm.mesa')}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.mesa.numeroMesa}" />
+			</p:column>
+			<p:column sortBy="#{pedido.dataPedido}" headerText="Data Pedido" style="text-align:center">
+				<h:outputText value="#{pedido.dataPedido}">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR" timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+			<p:column sortBy="#{pedido.dataUltimoStatus}" headerText="Tempo Entrega" style="text-align:center">
+				<h:outputText value="#{pedido.tempoAteUltStatus}">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR" timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+			<p:column sortBy="#{pedido.statusPedido}" headerText="Status" filterBy="#{pedido.statusPedido}" filterMatchMode="contains"
+				style="text-align:center">
+				<h:outputText value="#{pedido.statusPedido}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" xmlns:ui="http://java.sun.com/jsf/facelets" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Pedidos" id="pagePedido" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<style>
+.ui-table-reflow.ui-responsive {
+	display: table;
+}
+
+.ui-li-desc {
+	white-space: normal;
+}
+</style>
+
+		<pm:view swatch="c" id="mainViewListaPedido">
+			<pm:header swatch="#{listaProdutoPedidoMB.temaLogado}" title="Pedidos">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="listapedido.jsf" />
+				</f:facet>
+				<script type="text/javascript" src="/w8r/javax.faces.resource/primefaces.js.jsf?ln=primefaces&amp;v=4.0.RC1"></script>
+				<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+				<script src="../jqprint/jquery.jqprint-0.3.js"></script>
+
+				<script>
+					$(document).ready(function() {
+						$("#imprimir").click(function() {
+							$('#listView').jqprint();
+						});
+					});
+					$(window).load(function() {
+						$('div.ui-btn').attr('data-theme', 'b');
+						$('.ui-btn').removeClass('ui-btn-up-c');
+						$('.ui-btn').addClass('ui-btn-up-b');
+					});
+				</script>
+
+			</pm:header>
+			<pm:content id="content">
+				<h:form id="formLista" prependId="false">
+
+
+					<h:commandButton id="imprimir" value="Imprimir" type="button" icon="ui-icon-print" />
+
+
+					<p:separator />
+
+
+
+					<p:dataList type="inset" title="Pedidos Entregue" titleSwatch="c" value="#{listaProdutoPedidoMB.pedidos}" var="pedido" id="listView">
+						<f:facet name="header">
+							<div style="text-align: center">Pedido</div>
+						</f:facet>
+						<p align="center">
+							<h:outputText value="Pedido: " style="font-weight:bold" />
+							<h:outputLabel value="#{pedido.id}" />
+						</p>
+						<p align="center">
+							<h:outputLabel value="#{pedido.produto.codExterno} - " rendered="#{pedido.produto.codExterno != null}" />
+							<h:outputLabel value="#{pedido.produto.nome}" />
+						</p>
+						<p align="center">
+							<h:outputFormat value="#{msg['cm.mesa']} #{pedido.mesa.numeroMesa}">
+								<f:param value="#{metaLocalMB.entity.metaLocalSingular}" />
+							</h:outputFormat>
+							<h:outputText rendered="#{metaLocalMB.empresaReferencia.metaLocal == 'QUARTO'}" value=" (#{pedido.mesa.descricao})" />
+						</p>
+						<p align="center">
+							<h:outputText value="#{pedido.descricaoFormatado}" escape="false" />
+						</p>
+						<p align="center">
+							<h:outputText value="Quantidade Pedido: " style="font-weight:bold" />
+							<h:outputLabel value="#{pedido.quantidade}">
+							</h:outputLabel>
+						</p>
+						<p align="center">
+							<h:outputText value="Preço Unitário: " style="font-weight:bold" />
+							<h:outputLabel value="#{pedido.preco}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+							</h:outputLabel>
+						</p>
+						<p align="center">
+							<h:outputText value="Preço Total: " style="font-weight:bold" />
+							<h:outputLabel value="#{pedido.precoComQtd}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+							</h:outputLabel>
+						</p>
+						<p align="center">
+							<h:outputText value="Status: " style="font-weight:bold" />
+							<h:outputLabel value="#{pedido.statusPedido.traducao}" />
+						</p>
+						<p align="center">
+							<h:outputText value="Hora pedido: " style="font-weight:bold" />
+							<h:outputText value="#{pedido.dataPedido}">
+								<f:convertDateTime type="date" locale="pt_BR" timeZone="America/Sao_Paulo" timeStyle="medium" pattern="HH:mm" />
+							</h:outputText>
+						</p>
+
+
+
+					</p:dataList>
+
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

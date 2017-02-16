@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" template="/templates/default.xhtml">
+	<ui:define name="article">
+		<p:panel id="pnMain" header="Propaganda">
+			<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+			<p:effect type="highlight" event="load">
+				<f:param name="color" value="'red'" />
+			</p:effect>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="empresa" value="Empresa: " />
+				<h:outputLabel id="empresa" value="#{propagandaMB.empresaLogada.nome}" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="descricao" value="Descrição: " />
+				<p:inputTextarea id="descricao" value="#{propagandaMB.entity.descricao}" cols="50" />
+				<p:message for="descricao" styleClass="msg" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel value="Imagem Detalhada: " />
+				<p:fileUpload id="imagem" fileUploadListener="#{propagandaMB.carregarArquivoImgDetalhada}" mode="advanced" update="previewDetalhada,imagemPreViewDetalh"
+					immediate="true" invalidSizeMessage="Tamanho limite de 300kb" sizeLimit="300000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+					fileLimitMessage="Tamanho limite de 300kb" uploadLabel="Enviar" cancelLabel="Cancelar" label="Procurar" required="true" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField" id="previewDetalhada">
+				<h:outputLabel for="imagemPreViewDetalh" value="Preview: " />
+				<p:graphicImage id="imagemPreViewDetalh" rendered="#{propagandaMB.streamImagemDetalhada != null}" value="#{propagandaMB.streamImagemDetalhada}"
+					height="250" width="450" />
+				<p:graphicImage id="imagemPreViewDetalhNoData" rendered="#{propagandaMB.streamImagemDetalhada == null}" value="/images/sem_imagem.png"
+					height="250" width="450" />
+			</h:panelGroup>
+
+			<p:separator />
+			<p:panel styleClass="cardapioButton">
+				<p:commandButton id="persist" icon="ui-icon ui-icon-disk" value="Salvar" actionListener="#{propagandaMB.actionPersist}" update="@form"
+					process=":cmForm:pnMain" />
+				<p:commandButton id="remove" icon="ui-icon ui-icon-closethick" value="Remover" actionListener="#{propagandaMB.actionRemove}" update="@form"
+					process="@this" />
+				<p:commandButton id="new" icon="ui-icon ui-icon-document" value="Limpar" actionListener="#{propagandaMB.actionNew}" immediate="true" update="@form" />
+			</p:panel>
+		</p:panel>
+
+		<p:dataTable emptyMessage="" value="#{propagandaMB.entityList}" var="propaganda" rows="10" paginator="true" selection="#{propagandaMB.entity}"
+			selectionMode="single" rowKey="#{propaganda}" paginatorPosition="top" paginatorAlwaysVisible="false">
+			<p:ajax event="rowSelect" update="@form" />
+			<f:facet name="header">Propagandas</f:facet>
+			<p:column filterBy="#{propaganda.descricao}" filterMatchMode="contains" headerText="Descrição">
+				<h:outputText value="#{propaganda.descricao}" />
+			</p:column>
+		</p:dataTable>
+	</ui:define>
+</ui:composition>

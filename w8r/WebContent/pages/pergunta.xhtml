@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+	<pm:page title="Pergunta" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<pm:view swatch="#{perguntaMB.temaLogado}" id="mainView">
+			<pm:header swatch="#{perguntaMB.temaLogado}" title="Cadastro de Perguntas (#{perguntaMB.empresaLogada.nome})">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="configuracao.jsf" />
+				</f:facet>
+			</pm:header>
+
+			<pm:content>
+				<h:form id="formMain">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+
+					<p:inputTextarea id="descricao" autoResize="false" label="Descrição: " value="#{perguntaMB.entity.descricao}" cols="50"
+						style="font-weight: bold;color: #333333;" />
+					<p:message for="descricao" styleClass="msg" />
+
+					<p:selectOneRadio id="tipoResposta" label="Tipo de Resposta: " value="#{perguntaMB.entity.tipoResposta}">
+						<f:selectItem itemValue="#{perguntaMB.entity.tipoRespostaUmaEmVarias}" itemLabel="Uma em várias" />
+						<f:selectItem itemValue="#{perguntaMB.entity.tipoRespostaSimOuNao}" itemLabel="Sim / Não" />
+						<f:selectItem itemValue="#{perguntaMB.entity.tipoRespostaQuantidade}" itemLabel="Quantidade" />
+						<f:selectItem itemValue="#{perguntaMB.entity.tipoRespostaTexto}" itemLabel="Texto" />
+					</p:selectOneRadio>
+
+					<p:commandButton id="persist" value="Salvar" update=":formMain" process=":formMain" actionListener="#{perguntaMB.actionPersist}" />
+					<p:commandButton id="remove" value="Remover" update=":formMain" process="@this" actionListener="#{perguntaMB.actionRemove}" />
+					<p:commandButton value="Novo" actionListener="#{perguntaMB.actionNew}" process=":formMain" update=":formMain" />
+
+					<p:dataList type="inset" title="Lista de Perguntas" titleSwatch="#{perguntaMB.temaLogado}" value="#{perguntaMB.entityList}" var="pergunta">
+						<f:facet name="header">Perguntas</f:facet>
+						<p:column>
+							<h:commandLink update=":formMain">
+
+								<h:outputLabel value="#{pergunta.descricao}" />
+								<h:outputLabel value="#{pergunta.tipoResposta}" />
+								<f:setPropertyActionListener value="#{pergunta}" target="#{perguntaMB.entity}" />
+							</h:commandLink>
+						</p:column>
+					</p:dataList>
+				</h:form>
+
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

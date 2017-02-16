@@ -1,0 +1,131 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+
+	<pm:page title="Login" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		
+		<f:facet name="postinit">
+			<h:outputScript library="primefaces" name="gmap/gmap.js" />
+			<script type="text/javascript"
+				src="http://maps.google.com/maps/api/js?sensor=true"></script>						
+			<script type="text/javascript" language="javascript">
+				function findMe() {				
+					if($('#empresaGet').val() == 'false') {
+						navigator.geolocation.getCurrentPosition(
+							function(position) {
+								var map = gmap.getMap(),
+								latlng = new google.maps.LatLng(
+										position.coords.latitude,
+										position.coords.longitude);
+								map.setCenter(latlng);
+								
+								var marker = new google.maps.Marker({
+									position : latlng
+								});
+								marker.setMap(map);
+								
+								document.getElementById('formMain:latitude').value = position.coords.latitude;
+								document.getElementById('formMain:longitude').value = position.coords.longitude;
+								
+								rcAtualizaEmpresas();
+							}, function(error) {
+								alert(error.message);
+							}, {
+								enableHighAccuracy : true
+							});
+					}
+				}
+				
+				 function habilitaEmail(){
+					/*var radioObj = document.getElementById('formMain:flPedido:0');
+					if(radioObj.checked)
+						document.getElementById('divEmail').style.display = 'none';
+					else
+						document.getElementById('divEmail').style.display = 'block';	*/				
+				} 
+				
+				function redirecionaMesa(){
+					var radioObj = document.getElementById('formMain:flPedido:0');
+					if(radioObj.checked)
+						document.getElementById('divEmail').style.display = 'none';
+					else
+						document.getElementById('divEmail').style.display = 'block';	
+				}
+			</script>
+		</f:facet>
+
+		<pm:view swatch="#{loginClienteMB.temaLogado}" id="main" >
+			<h:body onload="findMe()">
+				<h:inputHidden value="#{loginClienteMB.empresaGet}" id="empresaGet"/>
+				<pm:header title="#{loginClienteMB.getResourcesBundle('cm.cardapio')}" >
+					<f:facet name="left">
+					<p:button value="#{msg['cm.voltar']}" icon="back" href="index.jsf" />
+				</f:facet>
+				</pm:header>
+
+				<pm:content>
+					<h:form id="formMain">
+
+						<h:inputHidden value="#{loginClienteMB.latitude}" id="latitude" />
+						<h:inputHidden value="#{loginClienteMB.longitude}" id="longitude" />
+						
+						<p:remoteCommand name="rcAtualizaEmpresas" update=":formMain"
+							actionListener="#{loginClienteMB.carregaEmpresasPerto}" process="@this, latitude, longitude" />
+
+						<pm:field id="fdEmpresa" rendered="#{!loginClienteMB.empresaGet}">
+							<h:outputLabel for="empresa" value="#{msg['cm.local']}:" />
+							<h:selectOneMenu id="empresa" converter="empresa" value="#{loginClienteMB.empresaSel}" required="true" >
+								<f:selectItem itemValue="#{null}" itemLabel="#{msg['cm.escolha.estabelecimento']}"  />
+								<f:selectItems value="#{loginClienteMB.empresas}" var="emp"
+									itemLabel="#{emp.nome} (#{emp.distanciaMetros}m)" itemValue="#{emp}" />
+								<p:ajax event="change" update=":formMain:fieldPedido" process="@this" />	
+							</h:selectOneMenu>
+							<p:message for="empresa" />
+						</pm:field>
+						
+						<pm:field rendered="#{loginClienteMB.empresaGet}">
+							<h:outputLabel for="empresa2" value="#{msg['cm.local']}:" />	
+							<h:selectOneMenu id="empresa2" converter="empresa" value="#{loginClienteMB.empresaSel}" required="true" >
+								<f:selectItem itemValue="#{loginClienteMB.empresaSel}" itemLabel="#{loginClienteMB.empresaSel.nome}"  />
+							</h:selectOneMenu>						
+						</pm:field>
+		                
+		                <pm:field id="fieldPedido">
+		                    <p:selectOneRadio id="flPedido" value="#{loginClienteMB.entity.flFazerPedidos}" 
+		                    	onchange="habilitaEmail()" label="#{msg['cm.acesso']}: " rendered="#{loginClienteMB.empresaSel.flModuloPedido}" >
+		                        <f:selectItem itemLabel="#{msg['cm.cliente.acesso.visualizacao']}" itemValue="false" />
+		                        <f:selectItem itemLabel="#{msg['cm.cliente.acesso.pedido']}" itemValue="true" />
+		                    </p:selectOneRadio>
+		                    <p:message for="flPedido" />
+		                </pm:field>
+		                
+		                <div id="divEmail" style="display: none">
+		                <pm:field  >
+		                    <h:outputLabel for="email" value="Email: "/>
+		                    <p:inputText id="email" value="#{loginClienteMB.entity.email}" />
+		                    <p:message for="email" />
+		                </pm:field>
+						</div>
+						
+						<p:separator />
+						<pm:field>
+							<p:commandButton value="#{msg['cm.entrar']}" icon="forward" process="formMain" update="formMain"
+								actionListener="#{loginClienteMB.actionLoginCliente}" />
+
+						</pm:field>
+
+					</h:form>
+				</pm:content>
+				<p:gmap zoom="15" type="MAP" style="width:100%;height:15em" widgetVar="gmap" rendered="#{!loginClienteMB.empresaGet}"/>
+			</h:body>
+		</pm:view>
+	</pm:page>
+</f:view>

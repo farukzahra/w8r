@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pm="http://primefaces.org/mobile"
+        contentType="text/html"
+        renderKitId="PRIMEFACES_MOBILE">
+    <pm:page title="Login" loadingMessage="Carregando"> 
+    	<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>       
+	    <pm:view swatch="#{loginMesaMB.temaLogado}" id="main">
+            <pm:header swatch="#{loginMesaMB.temaLogado}" title="Login #{loginMesaMB.getResourcesBundle('cm.mesa')}">	
+            
+                <f:facet name="left">
+					<p:button value="#{msg['cm.voltar']}" icon="back" href="principalempresa.jsf?reverse=true"  />
+				</f:facet>
+            </pm:header>
+	        <pm:content>
+	            <h:form>
+	            
+	            	<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+	            
+	            	<pm:field>
+    		 		    <h:outputLabel for="numeroMesa" value="#{loginMesaMB.getResourcesBundle('cm.mesa')} : " />	            		 
+	                    <p:inputText id="numeroMesa" value="#{loginMesaMB.entity.numeroMesa}" required="true"/>
+	                    <p:message for="numeroMesa"/>
+	                </pm:field>
+	                
+	                <pm:field>
+		                <h:outputLabel for="senhaMesa" value="#{msg['cm.senha']} : " />
+						<h:inputSecret id="senhaMesa" value="#{loginMesaMB.entity.senha}" required="true" />
+						<p:message for="senhaMesa" />
+					</pm:field>
+					
+					<pm:field rendered="#{loginMesaMB.empresaReferencia.metaLocal == 'QUARTO'}">
+		                <h:outputLabel for="descricao" value="#{msg['cm.local']} :" />
+						<p:inputText id="descricao" value="#{loginMesaMB.entity.descricao}" required="true"/>
+						<p:message for="descricao" />
+					</pm:field>
+					
+					
+	                <p:separator />
+	                <pm:field>
+                        <p:commandButton value="#{msg['cm.entrar']}" icon="forward" action="#{loginMesaMB.actionLoginMesa}" />    
+					</pm:field>
+					
+				</h:form>
+	    	</pm:content>
+	    					
+	    </pm:view>
+	</pm:page>
+</f:view>

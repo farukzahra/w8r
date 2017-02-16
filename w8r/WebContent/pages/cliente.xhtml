@@ -1,0 +1,99 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pm="http://primefaces.org/mobile"        
+        contentType="text/html"
+        renderKitId="PRIMEFACES_MOBILE">
+	<pm:page title="Mesa" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<f:facet name="postinit">
+			<h:outputStylesheet library="primefaces-mobile" name="calendar/calendar.css"  />
+            <h:outputScript library="primefaces-mobile" name="calendar/calendar.js" />  
+            <script type="text/javascript">
+                (function($) {
+                    $.mobiscroll.i18n['pt_BR'] = $.extend($.mobiscroll.i18n['pt_BR'], {
+                        dateFormat: 'dd/mm/yyyy HH',
+                        dateOrder: 'ddMMyy',
+                        dayNames: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+                        dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                        dayText: 'Dia',
+                        hourText: 'Hora',
+                        minuteText: 'Minutos',
+                        monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                        monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                        monthText: 'Mês',
+                        secText: 'Segundo',
+                        timeFormat: 'HH:ii',
+                        timeWheels: 'HHii',
+                        yearText: 'Ano',
+                        setText: 'Selecionar',
+                        cancelText: 'Cancelar',
+                        nowText: 'Agora'
+                    });
+                })(jQuery);
+            </script>
+		</f:facet>	
+		<pm:view swatch="#{clienteMB.temaLogado}" id="main">
+			<pm:header swatch="#{clienteMB.temaLogado}" title="Cadastro de Cliente (#{clienteMB.empresaLogada.nome})">
+                <f:facet name="left"><p:button value="Voltar" icon="back"  href="principalempresa.jsf" /></f:facet>
+            </pm:header>
+
+			<pm:content>
+				<h:form id="formMain">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true"  />
+					<pm:field>
+						<h4>Pesquisar Login: </h4>
+						<p:autoComplete  completeMethod="#{clienteMB.completaCliente}" required="true" converter="cliente"
+                                    var="c" itemLabel="#{c.nome} - #{c.login}" itemValue="#{c}" placeholder="Login..." 
+                                    minQueryLength="4" queryDelay="900" value="#{clienteMB.entity}" 
+                                    id="pesq" label="Login: " maxResults="5" >  
+	                        <p:ajax event="itemSelect" update=":formMain" listener="#{clienteMB.handleSelect}" />  
+	                    </p:autoComplete>
+						<p:message for="pesq" />
+					</pm:field>
+					<p:separator />	
+					
+					
+					
+					<pm:field>
+						<h:outputLabel for="login" value="Login *: " />
+						<h:inputText id="login" value="#{clienteMB.entity.login}" required="true" />
+						<p:message for="login"  />
+					</pm:field>				
+
+					<pm:field>
+						<h:outputLabel for="senha" value="Senha *: " />
+						<h:inputSecret id="senha" value="#{clienteMB.entity.senha}"
+							required="true" />
+						<p:message for="senha"  />
+					</pm:field>
+					
+					<pm:field>
+						<h:outputLabel for="nome" value="Nome: " />
+						<h:inputText id="nome" value="#{clienteMB.entity.nome}" />
+						<p:message for="nome"  />
+					</pm:field>
+					
+					<pm:field>
+						<h:outputLabel for="dtExpLogin" value="Data Expiração Login *: " />
+						<p:calendar value="#{clienteMB.entity.dataExpiracaoLogin}" pattern="dd/MM/yyyy HH:mm" 
+							  id="dtExpLogin" />
+						<p:message for="dtExpLogin" />
+					</pm:field>
+					
+						
+               		<p:commandButton id="persist" value="Salvar" update=":formMain" process=":formMain"
+					actionListener="#{clienteMB.actionPersist}" /> 
+					<p:commandButton value="Novo" actionListener="#{clienteMB.actionNew}" process="@this" update="formMain"/>    
+					
+					
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

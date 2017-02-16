@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fb="http://www.facebook.com/2008/fbml"
+	xmlns:pm="http://primefaces.org/mobile" contentType="text/html">
+<head>
+  
+  <link rel="stylesheet" type="text/css" href="../facebook/css/style.css" />
+</head>
+
+	<script>
+	    window.fbAsyncInit = function() {
+	      FB.init({ appId: '104536863002666', 
+	      status: true, 
+	      cookie: true,
+	      xfbml: true,
+	      oauth: true});	
+	      FB.Event.subscribe('auth.statusChange', handleStatusChange);	
+	    };
+
+	   function handleStatusChange(response) {
+		     document.body.className = response.authResponse ? 'connected' : 'not_connected';		
+		     if (response.authResponse) {
+		       	console.log(response);
+		       	updateUserInfo(response);
+		     }
+	   }
+	   function updateUserInfo(response) {
+		     FB.api('/me', function(response) {
+		       document.getElementById('user-info').innerHTML = '<img src="https://graph.facebook.com/' + response.id + '/picture" />' + response.name;
+		     });
+	   }
+	</script>
+
+	<pm:page title="Configuração Mesa">
+    	<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>	
+		<div id="fb-root"></div>
+		<script src=" http://connect.facebook.net/pt_BR/all.js"></script>
+		
+		<pm:view swatch="#{configuracaoMesaMB.temaLogado}" id="main">
+			<pm:header swatch="#{configuracaoMesaMB.temaLogado}" title="#{msg['cm.confmesa']}">
+				<f:facet name="left">
+					<p:button value="#{msg['cm.voltar']}" icon="back" href="cardapio.jsf?faces-redirect=true " />
+				</f:facet>				
+				
+			</pm:header>
+			<pm:content>
+				<h:form>	
+					
+					<div class="show_when_connected">
+			        	<div id="user-info" />
+			      	</div>
+			    
+			    
+			    
+			    <div id="like-button" align="right" style="width:100%">
+			    	<iframe src="http://www.facebook.com/plugins/like.php?href=www.w8r.com.br"
+		        	scrolling="no" frameborder="0"  style="border:none; width:450px; height:40px; font-size: 15px"></iframe>
+			    </div>
+				<div class="fb-login-button">Login with Facebook</div>
+				
+				<div class="show_when_not_connected">
+					<p:commandButton onclick="promptLogin();" value="Login Face" actionListener="#{configuracaoMesaMB.acessaFacebook}"/>
+				</div>
+				<div class="show_when_connected">
+					<p:button onclick="logout()" value="Logout Face"/>
+				</div>
+				<p:commandButton  value="teste" actionListener="#{configuracaoMesaMB.acessaFacebook}"/>
+				</h:form>
+			</pm:content>
+		</pm:view>
+		
+<script src="../facebook/js/config.js"></script>
+<script src="../facebook/js/ui.js"></script>
+<script src="../facebook/js/auth.js"></script>
+<script src="../facebook/js/feed.js"></script>
+<script src="../facebook/js/graph_api.js"></script>
+<script src="../facebook/js/requests.js"></script>
+<script src="../facebook/js/credits.js"></script>
+		
+	</pm:page>
+</f:view>

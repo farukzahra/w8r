@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" template="/templates/default.xhtml">
+	<ui:define name="header">
+		<div style="float: right">
+			<h:outputLink value="../loginempresa.jsf" style="color:#004276; font-size:15px; padding-right: 20px;padding-top: 1px;">Login Admin Mobile</h:outputLink>
+		</div>
+		<div class="ui-corner-all" id="bgfooter" style="border-radius: 0px 0px 0px 0px;float: left; width: 100%; width:100%;" align="center">
+			<h:graphicImage url="/images/w8r.png"></h:graphicImage>
+		</div>
+	</ui:define>
+	<ui:define name="nav">
+
+	</ui:define>
+	<ui:define name="article">
+		<h:form id="formMain">
+			<p:panel id="pnMain" header="Login Empresa" style="width: 525px; margin: 30px auto;">
+
+				<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+				<p:effect type="highlight" event="load">
+					<f:param name="color" value="'red'" />
+				</p:effect>
+				<h:panelGroup styleClass="cardapioField">
+					<h:outputLabel for="email" value="Email: " />
+					<p:inputText id="email" value="#{loginEmpresaMB.entity.email}" required="true" size="40" />
+					<p:message for="email" display="icon" />
+				</h:panelGroup>
+
+				<h:panelGroup styleClass="cardapioField">
+					<h:outputLabel for="senha" value="Senha : " />
+					<p:password id="senha" value="#{loginEmpresaMB.entity.senha}" required="true" feedback="false" />
+					<p:message for="senha" display="icon" />
+				</h:panelGroup>
+				<p:separator />
+				<p:commandButton value="Login" action="#{loginEmpresaMB.actionLoginEmpresa}" ajax="false" icon="ui-icon ui-icon-locked" />
+			</p:panel>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

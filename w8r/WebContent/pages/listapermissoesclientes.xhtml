@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Permissões Clientes" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<pm:view swatch="#{listaPedidoMB.temaLogado}" id="mainViewListaPedido">
+			<pm:header swatch="#{listaPedidoMB.temaLogado}" title="Permissões Clientes">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="principalempresa.jsf"  />
+				</f:facet>
+				<f:facet name="right">
+					<p:button value="Refresh" icon="refresh" href="listapermissoesclientes.jsf"  />
+				</f:facet>
+			</pm:header>
+			<pm:content id="content">
+				
+				<h:form id="formLista">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" id="msg"/>
+
+					<p:dataList titleSwatch="#{listaPedidoMB.temaLogado}" width="100%" 
+						value="#{permissaoMB.entityList}" var="permissao" id="listView" title="Permissões Vigentes">
+						<h:column>
+							<h6 align="left"><h:outputText
+								value="#{permissao.cliente.email}" /></h6>								
+						</h:column>
+						<h:column>
+							<h4 align="center">
+							<h:outputFormat value="#{msg['cm.mesa']} #{permissao.mesa.numeroMesa}">
+								<f:param value="#{metaLocalMB.entity.metaLocalSingular}"/>
+							</h:outputFormat></h4>
+						</h:column>
+						<h:column>
+							<h5 align="right">
+							<h:outputText value="#{permissao.data}">
+								<f:convertDateTime pattern="HH:mm" locale="pt_BR"
+									timeZone="America/Sao_Paulo" />
+							</h:outputText></h5>
+						</h:column>
+						<h:column >				
+							<h:selectOneRadio value="#{permissao.flAprovado}" valueChangeListener="#{permissaoMB.trocarStatus}"
+								id="radioPerm">
+		                        <f:selectItem itemLabel="Aprovar" itemValue="true" />
+		                        <f:selectItem itemLabel="Negar" itemValue="false" />
+		                        <p:ajax event="change" update=":formLista:listView, :formLista:msg" process="radioPerm"/>
+		                        <f:param name="idPermissao" id="idPermissao" value="#{permissao.id}" /> 
+		                    </h:selectOneRadio>
+						</h:column>
+						
+					</p:dataList>
+					
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

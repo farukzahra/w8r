@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" template="/templates/default.xhtml">
+	<ui:define name="article">
+		<p:panel id="pnMain" header="Financeiro">
+
+			<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+			<p:effect type="highlight" event="load">
+				<f:param name="color" value="'red'" />
+			</p:effect>
+
+			<h:panelGroup styleClass="cardapioField" rendered="#{financeiroMB.empresaLogada.perfil == empresaMB.empresaLogada.perfilAdministrador}">
+				<h:outputLabel for="empresa" value="Empresa: " />
+				<p:selectOneMenu value="#{financeiroMB.entity}" required="true" id="empresa" converter="empresa">
+					<f:selectItem itemValue="#{null}" itemLabel="Selecione uma opção" />
+					<f:selectItems value="#{financeiroMB.entityList}" var="emp" itemLabel="#{emp.nome}" itemValue="#{emp}" />
+				</p:selectOneMenu>
+				<p:message for="empresa" styleClass="msg" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="dtInicial" value="Data Inicial: " />
+				<p:calendar id="dtInicial" value="#{financeiroMB.dtInicial}" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm" defaultTime="08:00" />
+				<h:message for="dtInicial" styleClass="msg" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="dtFinal" value="Data Final: " />
+				<p:calendar id="dtFinal" value="#{financeiroMB.dtFinal}" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm" defaultTime="08:00" />
+				<h:message for="dtFinal" styleClass="msg" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="valorPedidos" value="Valor total dos Pedidos Entregues: " />
+				<h:outputText styleClass="ui-li-count" id="valorPedidos" value="#{financeiroMB.valorPedidos}" style="font-weight: bold;">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+				</h:outputText>
+			</h:panelGroup>
+
+			<p:separator />
+
+			<p:panel styleClass="cardapioButton">
+				<p:commandButton id="pesq" icon="ui-icon ui-icon-search" value="Pesquisar" actionListener="#{financeiroMB.pesquisar}" update="pnMain, dtPedidos" />
+			</p:panel>
+
+			<p:separator />
+
+
+
+		</p:panel>
+
+		<p:dataTable emptyMessage="" value="#{financeiroMB.pedidos}" id="dtPedidos" var="pedido" rows="10" paginator="true" paginatorPosition="top"
+			paginatorAlwaysVisible="false">
+			<f:facet name="header">Pedidos Entegues</f:facet>
+			<p:column filterBy="#{pedido.produto.grupoProduto.nome}" filterMatchMode="contains" headerText="Grupo" sortBy="#{pedido.produto.grupoProduto.nome}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.produto.grupoProduto.nome}" />
+			</p:column>
+			<p:column filterBy="#{pedido.produto.nome}" filterMatchMode="contains" headerText="Produto" sortBy="#{pedido.produto.nome}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.produto.nome}" />
+			</p:column>
+			<p:column filterBy="#{pedido.preco}" filterMatchMode="contains" headerText="Preço Unitário" sortBy="#{pedido.preco}" style="text-align:center">
+				<h:outputText value="#{pedido.preco}">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+				</h:outputText>
+			</p:column>
+			<p:column filterBy="#{pedido.quantidade}" filterMatchMode="contains" headerText="Quantidade" sortBy="#{pedido.quantidade}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.quantidade}" />
+			</p:column>
+			<p:column filterBy="#{pedido.precoComQtd}" filterMatchMode="contains" headerText="Preço Total" sortBy="#{pedido.precoComQtd}"
+				style="text-align:center">
+				<h:outputText value="#{pedido.precoComQtd}">
+					<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+				</h:outputText>
+			</p:column>
+			<p:column filterBy="#{pedido.mesa.numeroMesa}" filterMatchMode="contains" headerText="Numero Mesa" style="text-align:center">
+				<h:outputText value="#{pedido.mesa.numeroMesa}" />
+			</p:column>
+			<p:column sortBy="#{pedido.dataPedido}" headerText="Data Pedido" style="text-align:center">
+				<h:outputText value="#{pedido.dataPedido}">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt,BR" timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+		</p:dataTable>
+	</ui:define>
+</ui:composition>

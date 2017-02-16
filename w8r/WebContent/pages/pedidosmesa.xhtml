@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+
+
+	<pm:page title="#{msg['cm.pedidosmesa']}" loadingMessage="#{msg['cm.carregando']}">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<pm:view swatch="#{cardapioMB.temaLogado}" id="mainView">
+			<pm:header swatch="#{cardapioMB.temaLogado}" title="#{cardapioMB.getResourcesBundle('cm.pedidosmesa')}">
+				<f:facet name="left">
+					<p:button value="#{msg['cm.voltar']}" icon="back" href="cardapio.jsf" />
+				</f:facet>
+			</pm:header>
+			<pm:content>
+				<h:form id="formPedidosMesa">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" id="message" />
+					<div style="text-align: right">
+						<h:outputLabel value="#{msg['cm.total']}" style="font-weight: bold;" />
+						<h:outputLabel value="#{pedidoMB.totalPedido}" styleClass="ui-li-count" style="font-weight: bold;">
+							<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+						</h:outputLabel>
+					</div>
+					<p:dataList type="inset" title="#{msg['cm.pedidos']}" titleSwatch="#{cardapioMB.temaLogado}" id="dlPedidos" value="#{pedidoMB.pedidosMesa}"
+						var="pedido">
+
+						<p:graphicImage value="\images#{pedido.produto.pathImagemPrincipal}" width="80" height="100"
+							rendered="#{pedido.produto.pathImagemPrincipal != null}" />
+						<p align="right">
+							<h:outputText value="Produto: " style="font-weight:bold"/>
+							<h:outputLabel value="#{pedido.produto.nome}" />
+						</p>						
+						<p align="right">
+							<h:outputText value="Status: " style="font-weight:bold"/>
+							<h:outputLabel value="#{pedido.statusPedido.traducao}" />
+						</p>
+						<p align="right">
+							<h:outputText value="Hora pedido: " style="font-weight:bold"/>
+							<h:outputText value="#{pedido.dataPedido}">
+								<f:convertDateTime type="date" locale="pt_BR" timeZone="America/Sao_Paulo" timeStyle="medium" pattern="HH:mm" />
+							</h:outputText>
+						</p>
+						<p align="right">
+							<h:outputText value="Qtd. Msg. Ganhas: " style="font-weight:bold" rendered="#{cardapioMB.mesaLogada.empresa.flModuloMensagem}"/>
+							<h:outputText value="#{pedido.qtdeMensagensGanhas}" rendered="#{cardapioMB.mesaLogada.empresa.flModuloMensagem}"/>
+						</p>						
+						<p align="right">
+							<h:outputText value="Quantidade Pedido: " style="font-weight:bold"/>
+							<h:outputLabel value="#{pedido.quantidade}">
+							</h:outputLabel>
+						</p>
+						<p align="right">
+							<h:outputText value="Preço total: " style="font-weight:bold"/>
+							<h:outputLabel value="#{pedido.precoComQtd}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+							</h:outputLabel>
+						</p>
+
+
+					</p:dataList>
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

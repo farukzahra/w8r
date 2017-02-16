@@ -1,0 +1,225 @@
+BEBIDAS NÃO ALCOÓLICAS;1;0274;ÁGUA SEM GÁS;1;;2,4;1
+BEBIDAS NÃO ALCOÓLICAS;1;0275;ÁGUA COM GÁS;2;;2,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0271;ÁGUA TÔNICA;3;;3,5;1
+BEBIDAS NÃO ALCOÓLICAS;1;0273;ÁGUA TÔNICA DIET;4;;3,5;1
+BEBIDAS NÃO ALCOÓLICAS;1;0276;H2OH;5;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0277;ÁGUA DE COCO (copo 300ml);6;;3,5;1
+BEBIDAS NÃO ALCOÓLICAS;1;0279;ÁGUA DE COCO (jarra 700ml);7;;9,9;1
+BEBIDAS NÃO ALCOÓLICAS;1;0258;SODA LIMONADA;8;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0259;SODA DIET;9;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0260;SUKITA;10;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0261;PEPSI;11;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0262;PEPSI LIGHT;12;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0263;GUARANÁ;13;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0264;GUARANÁ ZERO;14;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0324;ICE TEA;15;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;0301;COCKTAIL SEM VODKA;16;;10,9;1
+BEBIDAS NÃO ALCOÓLICAS;1;;SUCO 300ML;17;;3,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;;SUCO ESPECIAL 300ML;18;;4,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;;SUCO 500ML;19;;4,8;1
+BEBIDAS NÃO ALCOÓLICAS;1;;SUCO ESPECIAL 500ML;20;;5,9;1
+BEBIDAS NÃO ALCOÓLICAS;1;;SUCO JARRA;21;;9,9;1
+BEBIDAS NÃO ALCOÓLICAS;1;;SUCO ESPECIAL JARRA;22;;10,9;1
+CERVEJAS;2;0347;ANTARCTICA PILSEN 600ML;1;;6,5;1
+CERVEJAS;2;0240;BRAHMA 600ML;2;;6,5;1
+CERVEJAS;2;0241;SKOL 600ML;3;;6,9;1
+CERVEJAS;2;0242;BOHEMIA 600ML;4;;6,9;1
+CERVEJAS;2;0243;ORIGINAL 600ML;5;;7,5;1
+CERVEJAS;2;0348;BUDWEISER (lata);6;;3,5;1
+CERVEJAS;2;0248;BUDWEISER (long neck);7;;4,5;1
+CERVEJAS;2;0250;SKOL (lata);8;;3,5;1
+CERVEJAS;2;0252;SKOL BEATS (long neck);9;;4,5;1
+CERVEJAS;2;0251;BOHEMIA (lata);10;;3,5;1
+CERVEJAS;2;0253;BOHEMIA (long neck);11;;4,5;1
+CERVEJAS;2;0256;LIBER (sem álcool – lata);12;;3,5;1
+CERVEJAS;2;0255;LIBER (sem álcool – long neck);13;;4,5;1
+CERVEJAS;2;0254;MALZEBIER (long neck);14;;4,5;1
+CERVEJAS;2;0225;STELLA ARTOIS (long neck 275ml);15;;4,5;1
+DRINKS;3;;ROSKA COM ABSOLUT;1;;14,9;1
+DRINKS;3;626;ROSKA DE KIWI;2;;14,9;1
+DRINKS;3;625;ROSKA DE MORANGO;3;;14,9;1
+DRINKS;3;287;ROSKA DE MANJERICÃO;4;;13,9;1
+DRINKS;3;;ROSKA FRUTAS DIVERSAS;5;;12,9;1
+DRINKS;3;0311;SMIRNOFF RED;6;;5,5;1
+DRINKS;3;0310;SMIRNOFF ICE (long neck);7;;6,5;1
+DRINKS;3;0313;ABSOLUT;8;;8,20;1
+DRINKS;3;0312;STOLICHNAYA;9;;9,5;1
+DRINKS;3;0292;AGUARDENTE;10;;3,8;1
+DRINKS;3;0308;CACHAÇA MINEIRA;11;;5,5;1
+DRINKS;3;0304;RUM BACARDI;12;;4;1
+DRINKS;3;0329;MARTINI ROSSO;13;;5,8;1
+DRINKS;3;0284;MARTINI BIANCO;14;;5,8;1
+DRINKS;3;0282;GIM;15;;5,9;1
+DRINKS;3;0283;GIM TÔNICA;17;;7,6;1
+DRINKS;3;0281;CAMPARI;15;;6,5;1
+DRINKS;3;;CAIPIRINHA;16;;7,2;1
+DRINKS;3;;CAIPIRINHA ITAGIBÁ;17;;7,9;1
+DRINKS;3;;CAIPIRÍSSIMA;18;;8,2;1
+DRINKS;3;0295;CUBA LIBRE;19;;8,2;1
+DRINKS;3;0296;ALEXANDER;20;;8,2;1
+DRINKS;3;0297;WHISKY SAUER;21;;8,2;1
+DRINKS;3;0298;DAIKIRI;22;;8,2;1
+DRINKS;3;0299;HI-FI;23;;8,2;1
+DRINKS;3;0300;COCKTAIL COM VODKA;24;;8,2;1
+DRINKS;3;0302;PIÑA COLADA;25;;8,2;1
+DRINKS;3;0303;TEQUILA JOSÉ CUERVO ESPECIAL;26;;12;1
+LICORES E CONHAQUES;4;0335;AMARULA (Importado);1;;8,5;1
+LICORES E CONHAQUES;4;0336;FRANGELICO (Importado);2;;9,9;1
+LICORES E CONHAQUES;4;0339;DRAMBUIE (Importado);3;;10,9;1
+LICORES E CONHAQUES;4;0341;CREME DE MENTA (Nacional);4;;6;1
+LICORES E CONHAQUES;4;0342;CREME DE CACAO (Nacional);5;;6;1
+LICORES E CONHAQUES;4;0340;COINTREAU (Nacional);6;;6,5;1
+LICORES E CONHAQUES;4;0316;DOMECQ;7;;5;1
+LICORES E CONHAQUES;4;0317;DOMECQ (limão e melaço);8;;6;1
+LICORES E CONHAQUES;4;0318;OSBORNE;9;;7;1
+WHISKY;5;0320;RED LABEL (Importado 8 anos);1;;9;1
+WHISKY;5;0321;WHITE HORSE (Importado 8 anos);2;;9;1
+WHISKY;5;0322;BLACK & WHITE (Importado 8 anos);3;;9;1
+WHISKY;5;0323;BUCHANAN’S (Importado 12 anos);4;;13;1
+WHISKY;5;0325;BLACK LABEL (Importado 12 anos);5;;13;1
+WHISKY;5;0326;BALLANTINE’S (Importado 12 anos);6;;13;1
+WHISKY;5;0327;CLUBE RED LABEL;7;;109,9;1
+WHISKY;5;0350;CLUBE BLACK LABEL;8;;179,9;1
+WHISKY;5;0332;NATU NOBILIS (Nacional);9;;5,5;1
+WHISKY;5;0333;OLD EIGHT (Nacional);10;;5,5;1
+WHISKY;5;0330;TEACHER’S (Nacional);11;;6;1
+WHISKY;5;0331;BELL’S (Nacional);12;;6;1
+ESPUMANTES E VINHOS;6;0481;CASA PERINI MOSCATEL-BRASIL;1;;42,9;1
+ESPUMANTES E VINHOS;6;0479;CASA PERINI BRUT-BRASIL;2;;45,9;1
+ESPUMANTES E VINHOS;6;0480;CASTELL D’ORDAL BRUT –ESPANHA;3;;49,9;1
+ESPUMANTES E VINHOS;6;0400;VINHO SUAVE jarra;4;;19,5;1
+ESPUMANTES E VINHOS;6;0446;VINHO SECO jarra;5;;19,5;1
+ESPUMANTES E VINHOS;6;0401;SANGRIA jarra;6;;22,9;1
+ALMOÇO EXECUTIVO;7;0176;PEITO DE FRANGO GRELHADO 200g;1;SERVIDO AO CREME DE MOSTARDA E ARROZ COM BRÓCOLIS;23,9;1
+ALMOÇO EXECUTIVO;7;0177;PEITO DE FRANGO ALLA PARMIGIANA;2;Filé de peito de frango empanado com cobertura de mussarela, molho de tomate e parmesão, servido com purê de batatas e arroz;24,9;1
+ALMOÇO EXECUTIVO;7;0155;FILLETO ALLA PARMIGIANA;3;Filé mignon empanado com cobertura de mussarela, molho de tomate e parmesão, servido com purê de batatas e arroz;25,9;1
+ALMOÇO EXECUTIVO;7;0187;FILET GORGONZOLA 200g;4;Filé grelhado, servido com batata palito e arroz puxado no próprio molho;27,9;1
+ALMOÇO EXECUTIVO;7;0163;PICANHA GRELHADA 200g;5;Picanha argentina servida com arroz, feijão tropeiro e vinagrete;31,9;1
+ALMOÇO EXECUTIVO;7;0052;CARNE DO SOL 400g;6;Carne do sol grelhada na manteiga de garrafa, servida com arroz, feijão tropeiro e vinagrete;47,9;1
+ALMOÇO EXECUTIVO;7;0167;PEIXE GRELHADO 200g (Peixe do dia);7;Servido com navarin de legumes e vinagrete de ervas;29,5;1
+ALMOÇO EXECUTIVO;7;0172;SALMÃO GRELHADO 200g;8;Servido com batatas e arroz;31;1
+ALMOÇO EXECUTIVO;7;0166;PESCADO AO MOLHO DE CAMARÃO 200g (peixe do dia);9;Servido com batatas e arroz;31,9;1
+ALMOÇO EXECUTIVO;7;0079;SPAGHETTI COM CAMARÃO;10;massa com camarão, servida ao molho de tomate fresco e azeite extravirgem;34;1
+TAPAS;8;0780;MIX DE CASTANHA E AMENDOIM;1;Salgadinhos de amendoim e castanha de caju;8;1
+TAPAS;8;0765;FRITAS CASARRARA;2;Batatas fritas servidas com molho barbecue e gorgonzola;14,9;2
+TAPAS;8;0034;QUEIJO COALHO;3;Queijo coalho grelhado, servido com geleia de pimenta e melaço;17;2
+TAPAS;8;0766;MUSSARELA CROCANTE;4;Mussarela especial frita em gordura vegetal e servida com molho gorgonzola e agridoce;21;2
+TAPAS;8;0750;TÁBUA DE FRIOS CASARRARA;5;Mussarela especial, tomate seco, torradas, presunto parma, azeitonas, molho agridoce e gorgonzola;28;3
+TAPAS;8;0781;TORRADINHAS AVIAÇÃO;6;Baguetes crocantes com manteiga Aviação;7;1
+TAPAS;8;0753;BRUSCHETTA DE PRESUNTO PARMA;7;Torradas de pão italiano com tomate, manjericão, presunto parma e azeite extravirgem;23;2
+TAPAS;8;0757;BRUSCHETTA DE TOMATE;8;Fatias de pão italiano crocante com tomate, aromas de manjericão, parmesão e azeite extravirgem;18;2
+TAPAS;8;0026;QUIBE FRITO;9;Arabian delight with a taste of Brazil: deep-fried croquettes stuffed with minced beef;6,9;1
+TAPAS;8;0761;PICANHA FATIADA COM ALHO CROCANTE E CEBOLA;10;Servida com farofa e vinagrete;26;3
+TAPAS;8;0003;FILEZINHO CASARRARA;11;Descubra por que o nosso filé mignon com fritas é um dos pratos mais tradicionais da cidade;34,9;4
+TAPAS;8;0755;FILÉ EM DOIS SABORES;12;Cubos de filé au poivre vert e dijonaise, servidos com torradas;36;4
+TAPAS;8;0767;COSTELINHA GRELHADA	(300g);13;Costela suína com fritas e molho barbecue;25,9;3
+TAPAS;8;0756;COSTELINHA GRELHADA	(500g);14;Costela suína com fritas e molho barbecue;41;4
+TAPAS;8;0763;ESCONDIDINHO DE CARNE DO SOL EM PURÊ DE AIPIM COM QUEIJO COALHO;15;Cubos de carne com purê de aipim e queijo coalho;33;4
+TAPAS;8;0760;ESCONDIDINHO DE CARNE DO SOL E FUMEIRO;16;Cubos de carne com purê de batata doce, catupiry e queijo coalho;34;3
+TAPAS;8;0027;MOELA CASARRARA;17;Um clássico Casarrara: moelas cozidas com leite de coco e azeite de oliva, guarnecidas com pães à moda da casa;21,9;2
+TAPAS;8;0762;LINGUIÇA DE FRANGO GRELHADA;18;Servida com fritas, molho barbecue e molho de pimenta;17;2
+TAPAS;8;0022;FRANGO À PASSARINHO;19;;24,9;3
+TAPAS;8;0759;BUFFALO WINGS;20;“Coxinhas” crocantes da asa de frango servidas com torradas, molho agridoce e gorgonzola;25;2
+TAPAS;8;0018;PORÇÃO DE PÃO;21;;7,2;1
+TAPAS;8;0009;CALDO DE FEIJÃO;22;;6,9;1
+TAPAS;8;0005;CALDO DE CAMARÃO;23;;12,9;1
+TAPAS;8;0006;CALDO DE SURURU;24;;12,9;1
+TAPAS;8;0017;CASQUINHA DE SIRI;25;Nossas tradicionais casquinhas de siri servidas com limão e molho de pimenta;14;2
+TAPAS;8;0004;BOLINHO DE BACALHAU (08 unidades);26;O legítimo e crocante bolinho de bacalhau português;19;2
+TAPAS;8;0024;ISCA DE PESCADA À MILANESA;27;Servida com molho tártaro e limão;27;2
+TAPAS;8;0754;CAMARADA;28;Camarão grelhado em azeite de oliva e limão;33;2
+TAPAS;8;0100;FRITO DE CAMARÃO E LULA;25;Deliciosa combinação de frutos do mar servidos com molho tártaro;36;2
+GUARNIÇÕES;9;0210;ARROZ;1;;6,5;1
+GUARNIÇÕES;9;0209;ARROZ À GREGA;2;;8,9;1
+GUARNIÇÕES;9;0196;ARROZ COM BRÓCOLIS;3;;11,9;1
+GUARNIÇÕES;9;0203;BANANA À MILANESA;4;;8,9;1
+GUARNIÇÕES;9;0214;FEIJÃO TROPEIRO;5;;8,9;1
+GUARNIÇÕES;9;0219;NAVARIN DE LEGUMES;6;;9,9;1
+GUARNIÇÕES;9;0207;PURÊ DE BATATAS;7;;10,9;1
+GUARNIÇÕES;9;0212;FAROFA DE BANANA;8;Banana, ovo e cebola;11;1
+GUARNIÇÕES;9;0031;BATATA FRITA;9;;11,9;1
+GUARNIÇÕES;9;0208;PURÊ DE AIPIM;10;;11,9;1
+GUARNIÇÕES;9;0216;PIRÃO DE LEITE;11;;11,9;1
+GUARNIÇÕES;9;0191;RISOTO POMODORO;12;;14,9;1
+SALADAS, MASSAS E RISOTOS ;11;0193;SALADA ESPECIAL DA CASA;1;Mix de folhas, lascas de frango grelhado, croûtons, ervas frescas, mel, limão e tomate-cereja em azeite extravirgem;22;2
+SALADAS, MASSAS E RISOTOS;11;0194;SALADA DA HORTA COM PRESUNTO PARMA;2;Folhas variadas, presunto parma, palmito e vinagre balsâmico;23;2
+SALADAS, MASSAS E RISOTOS;11;0195;SALADA CAPRESE;3;Camarão grelhado, mussarela de búfala, tomates e pesto de castanha de caju;24;2
+SALADAS, MASSAS E RISOTOS;11;0094;RISOTO SERTANEJO;4;Arroz arbóreo, carne seca, abóbora, manteiga de garrafa, paio, aromas de alecrim e couve;41,9;3
+SALADAS, MASSAS E RISOTOS;11;0095;FETTUCINE COM CAMARÃO;5;Servido com creme de limão siciliano, bacon crocante, pimenta rosa e champignon;49;3
+SALADAS, MASSAS E RISOTOS;11;0096;RISOTO DE POLVO E CAMARÃO;6;Arroz italiano cremoso com polvo e camarão;49,9;4
+SALADAS, MASSAS E RISOTOS;11;0097;FRUTOS DO MAR AO POMODORO;7;Tagliatelle com polvo, camarão, mexilhões e azeite extravirgem;89,9;4
+PESCADOS;12;0098;PEIXE DO DIA (200g);1;Peixe grelhado com navarin de legumes e azeite extravirgem;29,5;2
+PESCADOS;12;0099;LINGUADO COM RISOTO DE LIMÃO SICILIANO E PERA (200g);2;Linguado grelhado com arroz italiano, pera e alho-poró, servido ao molho de alcaparras;36,9;3
+PESCADOS;12;0117;CAMARÃO TROPICAL;3;Camarão ao molho suave de damasco e abacaxi, servido com arroz, amêndoas crocantes e ervilhas;44,9;3
+PESCADOS;12;0101;PESCADO AO MOLHO DE CAMARÃO (300g);4;Servido com batatas e arroz;51,9;3
+PESCADOS;12;0118;SALMÃO AO MOLHO DE MARACUJÁ E PIMENTA ROSA (300g);5;Servido com vinho branco, arroz e ervas;52,9;3
+PESCADOS;12;0129;MOQUECA DE PEIXE (peixe do dia);6;Servida com arroz, pirão ou farofa amarela;54,9;3
+PESCADOS;12;0119;BACALHAU IMPERIAL GRATINADO COM CREME DE QUEIJO;7;Bacalhau servido com batatas laminadas, azeitonas, alho, cebola e azeite extravirgem;58;4
+PESCADOS;12;0126;ENSOPADO DE CAMARÃO;8;Servida com arroz, pirão ou farofa amarela;64,9;3
+PESCADOS;12;0125;MOQUECA DE CAMARÃO;9;Servida com arroz, pirão ou farofa amarela;64,9;4
+PESCADOS;12;0120;CAMARÃO À GREGA;10;Camarão com queijo à milanesa frito em gordura vegetal. Servido com arroz à grega, batata palito e molho tártaro;65,9;4
+PESCADOS;12;0133;MOQUECA MIXTA;11;Moqueca de peixe e camarão, servida com arroz, pirão ou farofa amarela;65,9;4
+CARNES E AVES;13;0045;TORNEDOR DE FILÉ MIGNON AO POIVRE E BATATA ANNA (200g);1;Tornedor de filé mignon com batata anna;38;3
+CARNES E AVES;13;0046;SERTÃO E MAR;2;Mix de filé e camarão, servido com batata anna, arroz e molho roquefort;56,9;4
+CARNES E AVES;13;0047;BIFE DE CHORIZO RED ANGUS (400g);3;Carne nobre bovina servida com risoto de ervas e batata assada;59;4
+CARNES E AVES;13;0048;FILÉ MIGNON AO MOLHO POIVRE VERT (400g);4;Filé grelhado servido com torta de batata;59,9;4
+CARNES E AVES;13;0049;CASARRARA BARBECUE;5;Costelinha de suíno baby, medalhão de filé com bacon, brochette de frango, duas linguiças de frango, farofa crocante, arroz amarelo e feijão;95;6
+CARNES E AVES;13;0066;COSTELA BOVINA RED ANGUS GRELHADA (1.400g);6;Mais nobre corte argentino da costela, servido com feijão tropeiro, arroz, vinagrete e fritas;95;10
+CARNES E AVES;13;0061;PICANHA GRELHADA (fatiada/400g);7;	Picanha argentina fatiada com arroz, feijão tropeiro e vinagrete;51,9;6
+CARNES E AVES;13;0060;PICANHA GRELHADA (700g);8;Picanha argentina servida com feijão tropeiro, arroz e vinagrete;79,9;8
+CARNES E AVES;13;0052;CARNE DO SOL (400g);9;Carne do sol grelhada na manteiga de garrafa. Servida com feijão tropeiro, arroz e vinagrete;43,9;4
+CARNES E AVES;13;0050;CARNE DO SOL (700g);10;Carne do sol grelhada na manteiga de garrafa. Servida com purê de aipim, cebola e arroz;64,9;4
+CARNES E AVES;13;0182;FRANGO GRELHADO (200g);11;Filé de peito grelhado com legumes;23,9;3
+CARNES E AVES;13;0057;GALETO GRELHADO;12;Servido com farofa de banana, ovos, arroz e vinagrete;31,9;3
+CARNES E AVES;13;0078;CODORNA RECHEADA	(02 unidades);13;Codorna recheada com farofa de pão de ervas e tâmara, servida com arroz, amêndoas crocantes e molho roquefort;42;4
+CARNES E AVES;13;0085;FILETTO ALLA PARMIGIANA;14;Filé mignon empanado com cobertura de mussarela, molho de tomate e parmesão, servido com purê de batatas e arroz;56,9;4
+PIZZA MEDIA 2 Sabores;14;0556;PIZZA VEGETARIANA;1;Navarin de legumes em azeite extravirgem;22;2
+PIZZA MEDIA 2 Sabores;14;0522;NAPOLITANA;2;Tomate em cubos com azeite de oliva, mussarela de búfala, parmesão, manjericão e orégano;22,9;2
+PIZZA MEDIA 2 Sabores;14;0508;CALABRESA;3;Calabresa, mussarela, orégano e cebola;22,9;2
+PIZZA MEDIA 2 Sabores;14;0516;MARGUERITA;4;Mussarela especial, orégano, tomate e manjericão em azeite extravirgem;23,9;2
+PIZZA MEDIA 2 Sabores;14;0520;MUSSARELA;5;Mussarela especial e orégano;23,9;2
+PIZZA MEDIA 2 Sabores;14;0528;PORTUGUESA;6;Mussarela especial, presunto cozido, ovos, tomate, cebola, azeitonas, orégano e azeite de oliva;24,9;2
+PIZZA MEDIA 2 Sabores;14;0502;ATUM;7;Atum, tomate em cubos, orégano, cebola e mussarela;27,9;2
+PIZZA MEDIA 2 Sabores;14;0524;PEITO DE PERU;8;Peito de peru, mussarela, orégano e abacaxi;27;2
+PIZZA MEDIA 2 Sabores;14;0514;FRANGO COM CATUPIRY;9;Frango, catupiry, mussarela especial, tomate seco e brócolis;27,9;2
+PIZZA MEDIA 2 Sabores;14;0558;CHEDDAR, FRANGO E BACON;10;Massa especial coberta com mussarela, cheddar, frango e bacon crocante;27,9;2
+PIZZA MEDIA 2 Sabores;14;0560;SERTANEJA;11;Carne do sol, queijo coalho, alho, cebola, orégano e couve crocante;27,9;2
+PIZZA MEDIA 2 Sabores;14;0532;QUATRO QUEIJOS;12;Mussarela, cheddar, catupiry e gorgonzola;29,9;2
+PIZZA MEDIA 2 Sabores;14;0542;PIZZA CASARRARA;13;Camarão ao molho catupiry, gorgonzola e frutas cristalizadas gratinadas;32;2
+PIZZA MEDIA 2 Sabores;14;0562;PIZZA ROMANA;14;Presunto Parma, rúcula, tomate seco e mussarela especial regada com azeite extravirgem;34,9;2
+PIZZA MEDIA 2 Sabores;14;0538;CAMARÃO COM CATUPIRY;15;Camarão marinado no azeite de oliva, catupiry, mussarela, ervas e champignon;33,9;3
+PIZZA MEDIA 2 Sabores;14;0564;SAGRADO SABOR;16;Mussarela, gorgonzola, damasco, cereja e abacaxi;33,9;3
+PIZZA GRANDE 3 Sabores;15;0557;PIZZA VEGETARIANA;1;Navarin de legumes em azeite extravirgem;29;2
+PIZZA GRANDE 3 Sabores;15;0523;NAPOLITANA;2;Tomate em cubos com azeite de oliva, mussarela de búfala, parmesão, manjericão e orégano;29,9;2
+PIZZA GRANDE 3 Sabores;15;0509;CALABRESA;3;Calabresa, mussarela, orégano e cebola;31,9;2
+PIZZA GRANDE 3 Sabores;15;0517;MARGUERITA;4;Mussarela especial, orégano, tomate e manjericão em azeite extravirgem;31,9;2
+PIZZA GRANDE 3 Sabores;15;0521;MUSSARELA;5;Mussarela especial e orégano;33,9;2
+PIZZA GRANDE 3 Sabores;15;0529;PORTUGUESA;6;Mussarela especial, presunto cozido, ovos, tomate, cebola, azeitonas, orégano e azeite de oliva;33,9;2
+PIZZA GRANDE 3 Sabores;15;0503;ATUM;7;Atum, tomate em cubos, orégano, cebola e mussarela;34,9;2
+PIZZA GRANDE 3 Sabores;15;0525;PEITO DE PERU;8;Peito de peru, mussarela, orégano e abacaxi;34;2
+PIZZA GRANDE 3 Sabores;15;0515;FRANGO COM CATUPIRY;9;Frango, catupiry, mussarela especial, tomate seco e brócolis;34,9;2
+PIZZA GRANDE 3 Sabores;15;0559;CHEDDAR, FRANGO E BACON;10;Massa especial coberta com mussarela, cheddar, frango e bacon crocante;36,9;2
+PIZZA GRANDE 3 Sabores;15;0561;SERTANEJA;11;Carne do sol, queijo coalho, alho, cebola, orégano e couve crocante;38,9;2
+PIZZA GRANDE 3 Sabores;15;0533;QUATRO QUEIJOS;12;Mussarela, cheddar, catupiry e gorgonzola;37,9;2
+PIZZA GRANDE 3 Sabores;15;0543;PIZZA CASARRARA;13;Camarão ao molho catupiry, gorgonzola e frutas cristalizadas gratinadas;42,9;2
+PIZZA GRANDE 3 Sabores;15;0563;PIZZA ROMANA;14;Presunto Parma, rúcula, tomate seco e mussarela especial regada com azeite extravirgem;42,9;2
+PIZZA GRANDE 3 Sabores;15;0539;CAMARÃO COM CATUPIRY;15;Camarão marinado no azeite de oliva, catupiry, mussarela, ervas e champignon;41,9;3
+PIZZA GRANDE 3 Sabores;15;0565;SAGRADO SABOR;16;Mussarela, gorgonzola, damasco, cereja e abacaxi;39,9;3
+SOBREMESAS;16;0365;FRUTAS DA ESTAÇÃO;1;;5;1
+SOBREMESAS;16;0237;SORVETES COM COBERTURA;2;Consulte-nos sobre os sabores disponíveis;8;1
+SOBREMESAS;16;0226;ROMEU E JULIETA;3;Goiabada cascão com queijo catupiry. Servido com sorvete de coco;9,9;1
+SOBREMESAS;16;0366;SUNDAE;4;Sorvete de creme com chantilly, calda de chocolate e castanha de caju;10,9;1
+SOBREMESAS;16;0367;PETIT GÂTEAU COM SORVETE DE CREME;5;;10,90;1
+SOBREMESAS;16;0457;MOUSSE DE CHOCOLATE CAPUCCINO E CREME CHANTILLY;6;;11;1
+SOBREMESAS;16;0368;DELÍCIA DE CHOCOLATE;7;Pequeno bolo de chocolate meio amargo recheado com brigadeiro branco, servido com sorvete de baunilha;12;1
+SOBREMESAS;16;0357;CAFÉ ESPRESSO;8;;2,5;1
+SOBREMESAS;16;0351;CHANTILLY;9;;1;1
+SOBREMESAS;16;0238;COCADAS;10;;2,9;1
+SOBREMESAS;16;0228;DOCE DE BANANA;11;;2,9;1
+SOBREMESAS;16;0239;TRUFAS;12;;3;1
+SOBREMESAS;16;0229;PAVÊ;13;;6,5;1
+SOBREMESAS;16;0235;TORTAS;14;;6,5;1
+SOBREMESAS;16;0232;MOUSSES;15;;6,5;1
+SOBREMESAS;16;0233;DOCE CASEIRO;16;;6,5;1
+SOBREMESAS;16;0234;DOCE DE LEITE;17;;6,5;1
+SOBREMESAS;16;0230;PUDIM DE LEITE;18;;6,5;1

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile"
+	contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+	<pm:page title="#{mesaMB.getResourcesBundle('cm.mesa')}" loadingMessage="Carregando">
+    	<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>	
+		<pm:view swatch="#{mesaMB.temaLogado}" id="main">
+			<pm:header swatch="#{mesaMB.temaLogado}" title="Cadastro de Mesa (#{mesaMB.empresaLogada.nome})">
+                <f:facet name="left"><p:button value="Voltar" icon="back"  href="configuracao.jsf" /></f:facet>
+            </pm:header>
+
+			<pm:content>
+				<h:form id="formMain">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true"  />
+					<pm:field>
+						<h:outputLabel for="numeroMesa" value="Número da #{mesaMB.getResourcesBundle('cm.mesa')}: " />
+						<h:inputText id="numeroMesa" value="#{mesaMB.entity.numeroMesa}"
+							required="true">
+							<f:validateLongRange for="numeroMesa" minimum="1" maximum="1000" />
+						</h:inputText>
+						<p:message for="numeroMesa"  />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="senha" value="Senha: " />
+						<h:inputText id="senha" value="#{mesaMB.entity.senha}"
+							required="true" />
+						<p:message for="senha"  />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="status" value="Status: " />
+						<h:selectOneRadio id="status" value="#{mesaMB.entity.status}">
+							<f:selectItem itemLabel="Ativo" itemValue="A" />
+							<f:selectItem itemLabel="Inativo" itemValue="I" />
+						</h:selectOneRadio>
+						<p:message for="status"  />
+					</pm:field>
+
+					<p:commandButton id="persist" value="Salvar" update=":formMain" process=":formMain" actionListener="#{mesaMB.actionPersist}" />
+					<p:commandButton id="remove" value="Remover" process="@this" update=":formMain" actionListener="#{mesaMB.actionRemove}" />
+					<p:commandButton value="Novo" actionListener="#{mesaMB.actionNew}" process="@this" update="formMain" />
+					<p:commandButton update=":formMain" process=":formMain" value="Gerar Senha" actionListener="#{mesaMB.actionGerarSenha}" />
+					<p:commandButton update=":formMain" process=":formMain" value="Gerar Todas Senhas" actionListener="#{mesaMB.actionGerarTodasSenhas}">					
+						<p:confirm header="Confirmação" message="Tem certeza que gerar todas as senhas?" icon="ui-icon-info" />
+					</p:commandButton>
+
+					<p:dataList  type="inset" title="Lista de #{mesaMB.getResourcesBundle('cm.mesas')}" titleSwatch="#{mesaMB.temaLogado}" value="#{mesaMB.entityList}" var="mesa">			 		                   		
+				        <p:column>  	
+				        	<p:commandLink  update=":formMain" process="@this" >
+								<f:setPropertyActionListener value="#{mesa}" target="#{mesaMB.entity}" />
+								<h:outputLabel value="Mesa #{mesa.numeroMesa}"/>
+							</p:commandLink>
+				        </p:column>						    
+                	</p:dataList>
+
+					
+					<p:confirmDialog global="true">
+						<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="check">
+							<f:attribute name="swatch" value="b" />
+						</p:commandButton>
+						<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="delete">
+							<f:attribute name="swatch" value="e" />
+						</p:commandButton>
+					</p:confirmDialog>
+
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

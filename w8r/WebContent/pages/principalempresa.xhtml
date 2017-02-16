@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile"
+	contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Cardápio" loadingMessage="Carregando"  contentType="text/html">
+    	<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>	
+		<pm:view swatch="#{principalEmpresaMB.temaLogado}" id="main">
+			<pm:header swatch="#{principalEmpresaMB.temaLogado}" title="Home (#{principalEmpresaMB.empresaLogada.nome})">
+				
+				<f:facet name="left">
+					<p:button value="Logoff" icon="alert" role="pop"  href="loginempresa.jsf" transition="pop" />
+				</f:facet>
+				<h:form >
+				<pm:navBar>
+	                <p:button value="Login #{principalEmpresaMB.getResourcesBundle('cm.mesa')}" icon="forward" href="loginmesa.jsf" />	                
+	                <p:button value="Pedidos" icon="grid" href="listapedido.jsf" />
+	            </pm:navBar>
+	            </h:form>
+			</pm:header>
+			<pm:content>
+				<h:form id="formLista">
+
+					<p:dataList title="Mesas" titleSwatch="#{principalEmpresaMB.temaLogado}" type="inset"
+						value="#{principalEmpresaMB.mesasAtivas}" var="mesa">
+						<f:facet name="header"><h:outputFormat value="#{msg['cm.mesas']}">
+									<f:param value="#{metaLocalMB.entity.metaLocalPlural}"/>
+								</h:outputFormat></f:facet>
+						<p:column>
+						
+							<p:commandLink action="mesadetalhe.jsf?faces-redirect=true" >
+								<f:setPropertyActionListener value="#{mesa}"
+									target="#{principalEmpresaMB.mesaSelecionada}" />
+								<h:outputFormat value="#{msg['cm.mesa']} #{mesa.numeroMesa}">
+									<f:param value="#{metaLocalMB.entity.metaLocalSingular}"/>
+								</h:outputFormat>
+							</p:commandLink>
+							
+						</p:column>
+					</p:dataList>
+				</h:form>
+			</pm:content>
+			
+		</pm:view>	
+		
+	</pm:page>
+</f:view>

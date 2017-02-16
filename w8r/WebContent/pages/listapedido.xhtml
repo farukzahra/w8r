@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" xmlns:ui="http://java.sun.com/jsf/facelets" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Pedidos" id="pagePedido" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<script type="text/javascript" src="/w8r/javax.faces.resource/primefaces.js.jsf?ln=primefaces&amp;v=4.0.RC1"></script>
+		<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+		<script src="../jqprint/jquery.jqprint-0.3.js"></script>
+		<script>
+			$(document).ready(function() {
+				corrigeImagens();
+				$("#imprimir").click(function() {
+					$('#listView').jqprint();
+				});
+			});
+
+			function corrigeImagens() {
+				if ($.browser.mozilla) {
+					$.each($('.corrigirImagem'), function(key, value) {
+						console.log(value.src);
+						value.src = value.src.replace('w8r/pages/%5Cimages/',
+								'images/');
+						console.log(value.src);
+					});
+				}
+			}
+		</script>
+		<style>
+.ui-table-reflow.ui-responsive {
+	display: table;
+}
+</style>
+		<pm:view swatch="#{listaPedidoMB.temaLogado}" id="mainViewListaPedido">
+			<pm:header swatch="#{listaPedidoMB.temaLogado}" title="Pedidos">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="principalempresa.jsf" />
+				</f:facet>
+			</pm:header>
+			<pm:content id="content">
+				<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+				<h:form id="formLista">
+					<p:poll interval="30" listener="#{listaPedidoMB.carregarPedidos}" update="listView" oncomplete="corrigeImagens();" />
+
+					<p:panelGrid style="width:100%">
+
+						<p:row>
+							<p:column>
+								<h:outputLabel value="Filtro Status: " style="font-weight: bold;" />
+							</p:column>
+							<p:column colspan="2">
+								<p:panel collapsed="true">
+									<p:selectManyCheckbox id="status" value="#{listaPedidoMB.statusFiltro}" valueChangeListener="#{listaPedidoMB.carregarPedidosEvent}"
+										converter="statusPedido">
+										<f:selectItems value="#{listaPedidoMB.statusPedidosDisponiveis}" var="status" itemValue="#{status}" itemLabel="#{status.traducao}" />
+										<p:ajax event="change" update="listView" />
+									</p:selectManyCheckbox>
+								</p:panel>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<h:outputLabel for="filtroProduto" value="Filtro Produto: " style="font-weight: bold;" />
+							</p:column>
+							<p:column>
+								<p:inputText id="filtroProduto" value="#{listaPedidoMB.filtroProduto}" size="50" maxlength="30" />
+							</p:column>
+							<p:column>
+								<h:commandButton id="filtroProdutoBotao" value="Filtrar Produto" actionListener="#{listaPedidoMB.actionCarregarPedidos}" update="listView"
+									process="@this,filtroProduto" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+
+					<h:commandButton id="imprimir" value="Imprimir" type="button" icon="ui-icon-print" />
+
+
+					<p:separator />
+
+					<p:dataTable title="Pedidos" titleSwatch="#{listaPedidoMB.temaLogado}" value="#{listaPedidoMB.pedidos}" var="pedido" id="listView">
+						<p:column headerText="">
+							<f:attribute name="priority" value="1" />
+							<p:graphicImage id="imagemPreViewPrinc" rendered="#{pedido.produto.pathImagemPrincipal != null}"
+								value="\images#{pedido.produto.pathImagemPrincipal}" height="80" width="100" styleClass="corrigirImagem" />
+						</p:column>
+						<p:column headerText="Pedido">
+							<f:attribute name="priority" value="2" />
+							<h4 align="left">
+								<h:outputFormat value="#{pedido.id}"/>
+							</h4>
+						</p:column>
+						<p:column headerText="Produto">
+							<f:attribute name="priority" value="3" />
+							<h4 align="left">
+								<p:commandLink action="#{listaPedidoMB.listaPedidoProduto}">
+									<f:setPropertyActionListener value="#{pedido}" target="#{listaProdutoPedidoMB.pedido}" />
+									<h:outputText value="#{pedido.produto.codExterno} - " rendered="#{pedido.produto.codExterno != null}" />
+									<h:outputText value="#{pedido.produto.nome}" />
+								</p:commandLink>
+							</h4>
+						</p:column>
+						<p:column headerText="Local">
+							<f:attribute name="priority" value="4" />
+							<h4 align="left">
+								<h:outputFormat value="#{msg['cm.mesa']} #{pedido.mesa.numeroMesa}">
+									<f:param value="#{metaLocalMB.entity.metaLocalSingular}" />
+								</h:outputFormat>
+								<h:outputText rendered="#{metaLocalMB.empresaReferencia.metaLocal == 'QUARTO'}" value=" (#{pedido.localizacao})" />
+							</h4>
+						</p:column>
+						<p:column headerText="Observações">
+							<f:attribute name="priority" value="5" />
+							<h4 align="left">
+								<h:outputText value="#{pedido.descricaoFormatado}" escape="false" />
+							</h4>
+						</p:column>
+						<p:column headerText="Preço Unit.">
+							<f:attribute name="priority" value="6" />
+							<h4 align="left">
+								<h:outputLabel value="#{pedido.preco}">
+									<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+								</h:outputLabel>
+							</h4>
+						</p:column>
+						<p:column headerText="Qtd">
+							<f:attribute name="priority" value="7" />
+							<h4 align="left">
+								<h:outputLabel value="#{pedido.quantidade}">
+								</h:outputLabel>
+							</h4>
+						</p:column>
+						<p:column headerText="Preço Total">
+							<f:attribute name="priority" value="8" />
+							<h4 align="left">
+								<h:outputLabel value="#{pedido.precoComQtd}">
+									<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+								</h:outputLabel>
+							</h4>
+						</p:column>
+						<p:column headerText="Hora">
+							<f:attribute name="priority" value="9" />
+							<h4 align="left">
+								<h:outputText value="#{pedido.dataPedido}">
+									<f:convertDateTime pattern="HH:mm" locale="pt_BR" timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</h4>
+						</p:column>
+						<p:column headerText="Status">
+							<h:selectOneMenu value="#{pedido.statusPedido}" id="listStatusPedido" disabled="#{pedido.encerrado}" converter="statusPedido">
+								<f:selectItems value="#{listaPedidoMB.statusPedidosDisponiveis}" var="status" itemValue="#{status}" itemLabel="#{status.traducao}" />
+								<p:ajax event="change" update=":formLista" process=":formLista" listener="#{listaPedidoMB.trocarStatus(pedido)}"/>
+								<f:param name="idPedido" id="idPedido" value="#{pedido.id}" />
+							</h:selectOneMenu>
+						</p:column>
+
+					</p:dataTable>					
+
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

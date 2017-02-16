@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+	<pm:page title="Cardápio">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<pm:view swatch="#{produtoMB.temaLogado}" id="mainView">
+			<pm:header swatch="#{produtoMB.temaLogado}" title="Cadastro de Produto (#{produtoMB.empresaLogada.nome})">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="configuracao.jsf" />
+				</f:facet>
+			</pm:header>
+
+			<pm:content>
+				<h:form id="formMain">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+
+					<pm:field>
+						<h:outputLabel for="grupoProduto" value="Grupo Produto: " />
+						<h:selectOneMenu value="#{produtoMB.grupoProdutoSelecionado}" converter="grupoProduto" required="true" id="grupoProduto">
+							<f:selectItem itemValue="#{null}" noSelectionOption="true" itemLabel="Selecione uma opção" />
+							<f:selectItems value="#{produtoMB.grupos}" var="grupo" itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
+							<p:ajax update=":formMain:tableLista" event="change" />
+						</h:selectOneMenu>
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="imagemPreViewPrincipal" value="Icone: " />
+						<p:graphicImage id="imagemPreViewPrincipal" cache="false" rendered="#{produtoMB.entity.pathImagemPrincipal != null}"
+							value="\images#{produtoMB.entity.pathImagemPrincipal}" height="80" width="100" />
+						<p:graphicImage id="imagemPreViewPrincipalNoData" cache="false" rendered="#{produtoMB.entity.pathImagemPrincipal == null}"
+							value="/images/sem_imagem.png" height="80" width="100"/>
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="codExterno" value="Cód. Externo: " />
+						<p:inputText id="codExterno" value="#{produtoMB.entity.codExterno}" size="30" maxlength="15" />
+						<p:message for="codExterno" styleClass="msg" />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="nome" value="Nome: " />
+						<p:inputText id="nome" value="#{produtoMB.entity.nome}" required="true" size="50" maxlength="50" />
+						<p:message for="nome" styleClass="msg" />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="descricao" value="Descrição: " />
+						<p:inputTextarea id="descricao" autoResize="false" value="#{produtoMB.entity.descricao}" cols="50" />
+						<p:message for="descricao" styleClass="msg" />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="preco" value="Preço: " />
+						<h:inputText id="preco" value="#{produtoMB.entity.preco}" required="true">
+							<f:convertNumber currencySymbol="$" currencyCode="BRL" locale="pt_BR" type="currency" pattern="#,##0.00" />
+						</h:inputText>
+						<p:message for="preco" styleClass="msg" />
+					</pm:field>
+
+					<pm:field>
+						<pm:inputRange id="qtdeMsgsDadas" minValue="1" maxValue="100" value="#{produtoMB.entity.qtdeMensagensDadas}" label="Qtde Mensagens Dadas: " />
+						<p:message for="qtdeMsgsDadas" styleClass="msg" />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel value="Imagem Detalhada: " />
+						<p:graphicImage id="imagemPreViewDetalh" cache="false" rendered="#{produtoMB.entity.pathImagemDetalhada != null}"
+							value="\images#{produtoMB.entity.pathImagemDetalhada}" height="300" width="450" />
+						<p:graphicImage id="imagemPreViewDetalhNoData" cache="false" rendered="#{produtoMB.entity.pathImagemDetalhada == null}"
+							value="/images/sem_imagem.png" height="300" width="450" />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="destaque" value="Destaque: " />
+						<h:selectOneRadio id="destaque" value="#{produtoMB.entity.flDestaque}">
+							<f:selectItem itemLabel="Sim" itemValue="true" />
+							<f:selectItem itemLabel="Não" itemValue="false" />
+						</h:selectOneRadio>
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="status" value="Status: " />
+						<h:selectOneRadio id="status" value="#{produtoMB.entity.status}">
+							<f:selectItem itemLabel="Ativo" itemValue="#{produtoMB.entity.statusAtivo}" />
+							<f:selectItem itemLabel="Inativo" itemValue="#{produtoMB.entity.statusInativo}" />
+						</h:selectOneRadio>
+					</pm:field>
+					<p:separator />
+
+					<p:commandButton id="persist" value="Salvar" actionListener="#{produtoMB.actionPersist}" update=":formMain" process=":formMain" />
+					<p:commandButton id="remove" value="Remover" actionListener="#{produtoMB.actionRemove}" process="@this" />
+					<p:commandButton id="new" value="Novo" actionListener="#{produtoMB.actionNew}" update="@form" immediate="true" />
+
+					<p:dataList type="inset" titleSwatch="#{produtoMB.temaLogado}" id="tableLista" value="#{produtoMB.entityList}" var="produto">
+						<f:facet name="header">Produtos</f:facet>
+						<p:column>
+							<p:commandLink update=":formMain" process="@this">
+								<p:graphicImage id="imagemPreViewPrinc" rendered="#{produto.pathImagemPrincipal != null}" value="\images#{produto.pathImagemPrincipal}" height="80" width="100" />
+								<p:graphicImage id="imagemPreViewPrincNoData" rendered="#{produto.pathImagemPrincipal == null}" value="/images/sem_imagem.png" height="80" width="100" />
+								<f:setPropertyActionListener value="#{produto}" target="#{produtoMB.entity}" />
+								<h:outputLabel value="#{produto.nome}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataList>
+				</h:form>
+
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

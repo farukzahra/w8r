@@ -1,0 +1,293 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/default.xhtml">
+	<ui:define name="article">
+	
+	<style>
+		#map {
+			height: 390px;
+			width: 590px
+		}
+	</style>
+
+		<p:panel id="pnMain" header="Cadastro Empresa">
+
+			<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+			<p:effect type="highlight" event="load" >  
+	            <f:param name="color" value="'red'" />  
+	        </p:effect>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="email" value="E-mail: " />
+				<p:inputText id="email" value="#{empresaMB.entity.email}"
+					required="true" style="width:300px" />
+				<p:message for="email" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="senha" value="Senha: " />
+				<p:password id="senha" value="#{empresaMB.entity.senha}" goodLabel="Boa" promptLabel="Digite sua senha" strongLabel="Forte" weakLabel="Fraca" 
+					/>
+				<p:message for="senha" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="nome" value="Nome: " />
+				<p:inputText id="nome" value="#{empresaMB.entity.nome}"
+					required="true" style="width:300px"  />
+				<p:message for="nome" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="descricao" value="Descrição: " />
+				<p:inputTextarea id="descricao" style="width:300px" 
+					value="#{empresaMB.entity.descricao}"  />
+				<p:message for="descricao" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="endereco" value="Endereço: " />
+				<p:inputText id="endereco" value="#{empresaMB.entity.endereco}"
+					required="true" style="width:300px"  />
+				<p:message for="endereco" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="cidade" value="Cidade: " />			
+				<p:inputText id="cidade" value="#{empresaMB.entity.cidade}"
+					required="true" style="width:300px"  />
+				<p:message for="cidade" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="uf" value="Estado: " />
+				<p:inputText id="uf" value="#{empresaMB.entity.uf}"
+					required="true" style="width:300px"  />
+				<p:message for="uf" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="cnpj" value="CNPJ: " />
+				<p:inputText id="cnpj" value="#{empresaMB.entity.cnpj}"
+					required="true" style="width:300px"  />
+				<p:message for="cnpj" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="geoLocal" value="Geo Localização: " />
+				<p:commandButton type="button" icon="ui-icon-pin-s" id="geoLocal" 
+				        value="Mapa" onclick="gmap.render(); PF('dlgMap').show(); findMe();findByEndereco();" />          
+				<p:dialog widgetVar="dlgMap" width="600" height="400" modal="true" >  
+				    <p:gmap id="gmap" center="#{empresaMB.latitude},#{empresaMB.longitude}" zoom="13" type="MAP"   
+				    	style="width:100%;height:100%" model="#{empresaMB.emptyModel}"   
+				    	onPointClick="handlePointClick(event);" widgetVar="gmap" draggable="true"  >
+				    </p:gmap>
+				   
+				</p:dialog>
+				<p:growl id="growl" showDetail="true"/> 
+				
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="latitude" value="Latitude: " />			
+				<p:inputText value="#{empresaMB.entity.latitude}" id="latitude" />
+			</h:panelGroup>
+
+			<h:panelGroup styleClass="cardapioField">
+			<h:outputLabel for="longitude" value="Longitude " />
+				<p:inputText value="#{empresaMB.entity.longitude}" id="longitude" />
+			</h:panelGroup>
+
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="valorOnDemand" value="Valor On-Demand: " />
+				<p:inputText value="#{empresaMB.entity.valorOnDemand}"  id="valorOnDemand" />
+				<p:message for="valorOnDemand" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+                 <h:outputLabel for="lingua" value="Língua Principal: "/>
+                 <p:selectOneRadio value="#{empresaMB.entity.linguaPadrao}" id="lingua">
+                 	<f:selectItems value="#{empresaMB.linguasDisponiveis}" 
+                 	var="lingua" itemLabel="#{lingua.label}" itemValue="#{lingua}" />
+                 </p:selectOneRadio>
+                 <h:message for="lingua" />
+            </h:panelGroup>
+            
+            <h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="modMsg" value="Módulos: " />
+				<p:selectBooleanCheckbox value="#{empresaMB.entity.flModuloMensagem}" id="modMsg" itemLabel="Mensagem" />				
+				<p:selectBooleanCheckbox value="#{empresaMB.entity.flModuloPedido}" id="modPed" itemLabel="Pedidos"/>
+				<p:selectBooleanCheckbox value="#{empresaMB.entity.flModuloIdiomas}" id="modIdi" itemLabel="Multi Idiomas"/>
+				<p:selectBooleanCheckbox value="#{empresaMB.entity.flModuloSuporte}" id="modSup" itemLabel="Suporte"/>
+				<p:message for="modMsg" />
+			</h:panelGroup>
+
+			
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="tema" value="Tema: " />
+				<p:selectOneRadio id="tema" value="#{empresaMB.entity.tema}"
+					required="true">
+					<f:selectItem itemLabel="A" itemValue="a" />
+					<f:selectItem itemLabel="B" itemValue="b" />
+					<f:selectItem itemLabel="C" itemValue="c" />
+					<f:selectItem itemLabel="D" itemValue="d" />					
+				</p:selectOneRadio>
+				<p:message for="tema" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="metalocal" value="Meta Local: " />
+				<p:selectOneRadio id="metalocal" value="#{empresaMB.entity.metaLocal}"
+					required="true">
+					<f:selectItem itemLabel="Quarto" itemValue="QUARTO" />
+					<f:selectItem itemLabel="Mesa" itemValue="MESA" />
+				</p:selectOneRadio>
+				<p:message for="metalocal" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="tipoLogin" value="Tipo Login: " />
+				<p:selectOneRadio id="tipoLogin" value="#{empresaMB.entity.tipoLogin}"
+					required="true">
+					<f:selectItem itemLabel="Mesa" itemValue="M" />
+					<f:selectItem itemLabel="Cliente" itemValue="C" />
+				</p:selectOneRadio>
+				<p:message for="tipoLogin" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="status" value="Status: " />
+				<p:selectOneRadio id="status" value="#{empresaMB.entity.status}"
+					required="true">
+					<f:selectItem itemLabel="Ativo" itemValue="A" />
+					<f:selectItem itemLabel="Inativo" itemValue="I" />
+				</p:selectOneRadio>
+				<p:message for="status" />
+			</h:panelGroup>
+
+			
+			<p:separator />
+			<p:panel styleClass="cardapioButton">				
+				<p:commandButton id="persist" icon="ui-icon ui-icon-disk" value="Salvar" actionListener="#{empresaMB.actionPersist}" update="@form" process=":cmForm:pnMain"/>
+				<p:commandButton id="carregar" icon="ui-icon ui-icon-disk" value="Carregar" actionListener="#{empresaMB.actionCarregar}" update="@form" process=":cmForm:pnMain" rendered="#{empresaMB.entity.id > 0}"/>
+				<p:commandButton id="remove" icon="ui-icon ui-icon-closethick" value="Remover" actionListener="#{empresaMB.actionRemove}" update="@form" process="@this"/>
+				<p:commandButton id="new" icon="ui-icon ui-icon-document" value="Limpar" actionListener="#{empresaMB.actionNew}" immediate="true"  update="@form"/>				
+			</p:panel>
+		</p:panel>
+
+		<p:dataTable emptyMessage="" value="#{empresaMB.entityList}"
+			var="empresa" rows="10" paginator="true"
+			selection="#{empresaMB.entity}" selectionMode="single"
+			rowKey="#{empresa}" paginatorPosition="top" paginatorAlwaysVisible="false">
+			<p:ajax event="rowSelect" update=":cmForm:pnMain" />
+			<f:facet name="header">Empresas</f:facet>
+			<p:column filterBy="#{empresa.nome}" filterMatchMode="contains"
+				headerText="Nome">
+				<h:outputText value="#{empresa.nome}" />
+			</p:column>
+			<p:column filterBy="#{empresa.email}" filterMatchMode="contains"
+				headerText="Email">
+				<h:outputText value="#{empresa.email}" />
+			</p:column>
+			<p:column filterBy="#{empresa.status}" filterMatchMode="contains"
+				headerText="Status">
+				<h:outputText value="#{empresa.status}" />
+			</p:column>
+		</p:dataTable>
+		
+	
+	
+			
+		
+		<h:outputScript library="primefaces" name="gmap/gmap.js" />
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+		
+		<script type="text/javascript"
+				src="#{request.contextPath}/maps/gmaps.js"></script>
+		
+		<script type="text/javascript">
+		
+		
+		
+			var map;
+
+			var currentMarker = null;
+
+			function handlePointClick(event) {
+				currentMarker.setMap(null);
+				currentMarker = new google.maps.Marker({
+					position : new google.maps.LatLng(event.latLng.lat(),
+							event.latLng.lng()),
+					draggable : true
+				});
+
+				PF('gmap').addOverlay(currentMarker);
+
+				atualizaLatLng(event);
+
+			}
+
+			function atualizaLatLng(event) {
+				document.getElementById('cmForm:latitude').value = event.latLng
+						.lat();
+				document.getElementById('cmForm:longitude').value = event.latLng
+						.lng();
+			}
+
+			function findMe() {
+				navigator.geolocation.getCurrentPosition(
+						function(position) {
+							var latEmpr = document
+									.getElementById('cmForm:latitude').value;
+							var lngEmpr = document
+									.getElementById('cmForm:longitude').value;
+							var map = gmap.getMap();
+							if (latEmpr == '' || lngEmpr == '') {
+								latlng = new google.maps.LatLng(
+										position.coords.latitude,
+										position.coords.longitude);
+								map.setCenter(latlng);
+							} else {
+								latlng = new google.maps.LatLng(latEmpr,
+										lngEmpr);
+								map.setCenter(latlng);
+								var marker = new google.maps.Marker({
+									position : latlng
+								});
+								marker.setMap(map);
+								currentMarker = marker;
+							}
+						}, function(error) {
+							alert(error.message);
+						}, {
+							enableHighAccuracy : true
+						});
+			}
+			
+			function findByEndereco(){
+				map = gmap.getMap();
+				GMaps.geocode({
+					address : $('#cmForm\\:endereco').val().trim() + ' ' + $('#cmForm\\:cidade').val().trim() + ' '  + $('#cmForm\\:uf').val().trim(),
+					callback : function(results, status) {
+						if (status == 'OK') {
+							var latlng = results[0].geometry.location;
+							$('#cmForm\\:latitude').val(latlng.lat());
+							$('#cmForm\\:longitude').val(latlng.lng());
+							map.setCenter(latlng.lat(), latlng.lng());
+							map.addMarker({
+								lat : latlng.lat(),
+								lng : latlng.lng()
+							});
+						}
+					}					
+				});
+				
+			}
+	</script>
+	</ui:define>
+</ui:composition>

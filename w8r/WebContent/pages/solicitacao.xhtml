@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+	<pm:page title="#{msg['cm.garcom']}" loadingMessage="#{msg['cm.carregando']}">
+
+		<pm:view id="viewMensagem" swatch="#{solicitacaoMB.temaLogado}">
+
+			<pm:header swatch="#{solicitacaoMB.temaLogado}" title="#{msg['cm.garcom']}">
+				<f:facet name="left">
+					<p:button value="#{msg['cm.voltar']}" icon="back" href="cardapio.jsf" />
+				</f:facet>
+			</pm:header>
+
+			<pm:content>
+				<h:form id="form">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="false" />
+
+					<pm:field>
+						<h:outputLabel for="tipo" value="#{solicitacaoMB.getResourcesBundle('cm.solicitacao.tipo')}: " />
+						<h:selectOneRadio id="tipo" value="#{solicitacaoMB.entity.tipo}">
+							<f:selectItem itemLabel="#{solicitacaoMB.getResourcesBundle('cm.solicitacao.tipo.fechar.conta')}" itemValue="Fechar Conta" />
+							<f:selectItem itemLabel="#{solicitacaoMB.getResourcesBundle('cm.solicitacao.tipo.fechar.duvida')}" itemValue="Dúvida" />
+						</h:selectOneRadio>
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="descricao" value="#{solicitacaoMB.getResourcesBundle('cm.solicitacao.descrição')}: " />
+						<h:inputTextarea id="descricao" value="#{solicitacaoMB.entity.descricao}" />
+					</pm:field>
+
+					<p:commandButton value="#{msg['cm.enviar']}" icon="check" update=":form" process=":form" actionListener="#{solicitacaoMB.actionPersist}" />
+
+				</h:form>
+			</pm:content>
+		</pm:view>
+
+	</pm:page>
+</f:view>

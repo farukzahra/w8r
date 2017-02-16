@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+	<pm:page title="Produto x Pergunta" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<pm:view swatch="#{produtoPerguntaMB.temaLogado}" id="mainView" contentType="text/html">
+			<pm:header swatch="#{produtoPerguntaMB.temaLogado}" title="Vincular Produto com Perguntas (#{produtoPerguntaMB.empresaLogada.nome})">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="configuracao.jsf" />
+				</f:facet>
+			</pm:header>
+
+			<pm:content>
+				<h:form id="formMain">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+					<pm:field>
+						<h:outputLabel for="grupoProduto" value="Grupo Produto: " />
+						<h:selectOneMenu value="#{produtoPerguntaMB.grupoSelecionado}" converter="grupoProduto" required="true" id="grupoProduto">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma opção" />
+							<f:selectItems value="#{produtoPerguntaMB.gruposDisponiveis}" var="grupo" itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
+							<p:ajax update=":formMain" event="change" />
+						</h:selectOneMenu>
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="produto" value="Produto: " />
+						<h:selectOneMenu value="#{produtoPerguntaMB.entity.produto}" converter="produto" required="true" id="produto">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma opção" />
+							<f:selectItems value="#{produtoPerguntaMB.produtosDisponiveis}" var="produto" itemLabel="#{produto.nome}" itemValue="#{produto}" />
+							<p:ajax update=":formMain:lista" event="change" listener="#{produtoPerguntaMB.carregarEntitiesList}" />
+						</h:selectOneMenu>
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="pergunta" value="Perguntas: " />
+						<h:selectOneMenu value="#{produtoPerguntaMB.entity.pergunta}" converter="pergunta" required="true" id="pergunta">
+							<f:selectItem noSelectionOption="true" itemLabel="Selecione uma opção" />
+							<f:selectItems value="#{produtoPerguntaMB.perguntasDisponiveis}" var="pergunta" itemLabel="#{pergunta.descricao}" itemValue="#{pergunta}" />
+							<p:ajax event="change" listener="#{produtoPerguntaMB.carregarProdutoPergunta}" />
+						</h:selectOneMenu>
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="flObrigatorio" value="" />
+						<p:selectBooleanCheckbox id="flObrigatorio" value="#{produtoPerguntaMB.entity.flRespostaObrigatoria}" itemLabel="Obrigatório" />
+					</pm:field>
+
+					<p:commandButton id="persist" value="Salvar" update=":formMain" process=":formMain" actionListener="#{produtoPerguntaMB.actionPersist}" />
+					<p:commandButton id="remove" value="Remover" update=":formMain" process="@this" actionListener="#{produtoPerguntaMB.actionRemove}" />
+
+					<p:dataList type="inset" title="Lista Produtos/Perguntas" titleSwatch="#{produtoPerguntaMB.temaLogado}" value="#{produtoPerguntaMB.entityList}"
+						var="prodPerg" id="lista">
+						<f:facet name="header">Lista Produtos/Perguntas</f:facet>
+						<p:column>
+							<p:commandLink update=":formMain" process="@this">
+								<h:outputLabel value="#{prodPerg.produto.nome} - #{prodPerg.pergunta.descricao}" />
+								<f:setPropertyActionListener value="#{prodPerg}" target="#{produtoPerguntaMB.entity}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataList>
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

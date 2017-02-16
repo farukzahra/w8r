@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" template="/templates/default.xhtml">
+	<ui:define name="article">
+		<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+		<p:poll interval="30" listener="#{listaPedidoMB.carregarPedidos}" update="pnMain" />
+
+		<p:panel id="pnMain" header="Pedidos">
+			<p:dataTable id="dtPedidos" emptyMessage="" value="#{listaPedidoMB.pedidos}" var="pedido" paginator="false" selection="#{listaPedidoMB.entity}"
+				selectionMode="single" rowKey="#{pedido}" rowStyleClass="#{pedido.corLinha}">
+				<p:ajax event="rowSelect" update=":cmForm:dgPedido" oncomplete="dlg1.show();" process="dtPedidos" />
+				<p:column headerText="Pedido" filterBy="#{pedido.id}" filterMatchMode="contains" sortBy="#{pedido.id}">
+					<h:outputText value="#{pedido.id}" />
+				</p:column>
+				<p:column headerText="Produto" filterBy="#{pedido.produto.nomeComCodigo}" filterMatchMode="contains" sortBy="#{pedido.produto.nomeComCodigo}">
+					<h:outputText value="#{pedido.produto.nomeComCodigo}" />
+				</p:column>
+				<p:column headerText="Local" filterBy="#{pedido.mesa.numeroMesa}" filterMatchMode="contains" sortBy="#{pedido.mesa.numeroMesa}">
+					<h:outputFormat value="#{msg['cm.mesa']} #{pedido.mesa.numeroMesa}">
+						<f:param value="#{metaLocalMB.entity.metaLocalSingular}" />
+					</h:outputFormat>
+					<h:outputText rendered="#{metaLocalMB.empresaReferencia.metaLocal == 'QUARTO'}" value=" (#{pedido.localizacao})" />
+				</p:column>
+				<p:column headerText="Observações" filterBy="#{pedido.descricaoFormatado}" filterMatchMode="contains" sortBy="#{pedido.descricaoFormatado}">
+					<h:outputText value="#{pedido.descricaoFormatado}" escape="false" />
+				</p:column>
+				<p:column headerText="Preço Unit." filterBy="#{pedido.preco}" filterMatchMode="contains" sortBy="#{pedido.preco}">
+					<h:outputLabel value="#{pedido.preco}">
+						<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+					</h:outputLabel>
+				</p:column>
+				<p:column headerText="Qtd." filterBy="#{pedido.quantidade}" filterMatchMode="contains" sortBy="#{pedido.quantidade}">
+					<h:outputLabel value="#{pedido.quantidade}" />
+				</p:column>
+				<p:column headerText="Preço Total" filterBy="#{pedido.precoComQtd}" filterMatchMode="contains" sortBy="#{pedido.precoComQtd}">
+					<h:outputLabel value="#{pedido.precoComQtd}">
+						<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+					</h:outputLabel>
+				</p:column>
+				<p:column headerText="Data/Hora" filterBy="#{pedido.dataPedido}" filterMatchMode="contains" sortBy="#{pedido.dataPedido}">
+					<h:outputText value="#{pedido.dataPedido}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR" timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Status" filterBy="#{pedido.statusPedido}" filterMatchMode="contains" sortBy="#{pedido.statusPedido}">
+					<p:selectOneMenu value="#{pedido.statusPedido}" id="listStatusPedido" disabled="#{pedido.encerrado}" converter="statusPedido">
+						<f:selectItems value="#{listaPedidoMB.statusPedidosDisponiveis}" var="status" itemValue="#{status}" itemLabel="#{status.traducao}" />
+						<p:ajax event="change" process=":cmForm" update=":cmForm" listener="#{listaPedidoMB.trocarStatus(pedido)}" />
+						<f:param name="idPedido" id="idPedido" value="#{pedido.id}" />
+					</p:selectOneMenu>
+				</p:column>
+			</p:dataTable>
+			<p:dialog header="Pedido" widgetVar="dlg1" minHeight="400" id="dgPedido" minWidth="800">
+				<p:panelGrid rendered="#{listaPedidoMB.entity != null and listaPedidoMB.entity.id != null}" id="pgPedido">
+					<p:row>
+						<p:column>Pedido: </p:column>
+						<p:column>
+							<h:outputText value="#{listaPedidoMB.entity.id}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>Produto: </p:column>
+						<p:column>
+							<h:outputText value="#{listaPedidoMB.entity.produto.nomeComCodigo}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>Local: </p:column>
+						<p:column>
+							<h:outputFormat value="#{msg['cm.mesa']} #{listaPedidoMB.entity.mesa.numeroMesa}">
+								<f:param value="#{metaLocalMB.entity.metaLocalSingular}" />
+							</h:outputFormat>
+							<h:outputText rendered="#{metaLocalMB.empresaReferencia.metaLocal == 'QUARTO'}" value=" (#{listaPedidoMB.entity.localizacao})" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>Observações: </p:column>
+						<p:column>
+							<h:outputText value="#{listaPedidoMB.entity.descricaoFormatado}" escape="false" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>Preço Unit.: </p:column>
+						<p:column>
+							<h:outputLabel value="#{listaPedidoMB.entity.preco}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+							</h:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>Qtd.: </p:column>
+						<p:column>
+							<h:outputLabel value="#{listaPedidoMB.entity.quantidade}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>Preço Total: </p:column>
+						<p:column>
+							<h:outputLabel value="#{listaPedidoMB.entity.precoComQtd}">
+								<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" currencyCode="BRL" />
+							</h:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>Data/Hora: </p:column>
+						<p:column>
+							<h:outputText value="#{listaPedidoMB.entity.dataPedido}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR" timeZone="America/Sao_Paulo" />
+							</h:outputText>
+						</p:column>
+					</p:row>
+
+				</p:panelGrid>
+				<p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
+					<p:ajax listener="#{listaPedidoMB.actionMarcaImpressao}" update="pnMain"/>
+					<p:printer target="pgPedido" />
+				</p:commandButton>
+			</p:dialog>
+		</p:panel>
+	</ui:define>
+</ui:composition>

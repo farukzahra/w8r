@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Mesa" loadingMessage="Carregando">
+		<f:facet name="config">
+	    	$.mobile.listview.prototype.options.filterPlaceholder =  ' ';
+		</f:facet>
+
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<pm:view swatch="#{mesaMB.temaLogado}" id="main">
+			<pm:header swatch="#{mesaMB.temaLogado}" title="Cadastro de Mesa (#{mesaMB.empresaLogada.nome})">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="configuracao.jsf" />
+				</f:facet>
+			</pm:header>
+
+			<h:form id="formMain">
+
+
+				<p:commandButton update=":formMain:lista" process=":formMain" value="Gerar Todas Senhas" actionListener="#{mesaMB.actionGerarTodasSenhas}" >
+					<p:confirm header="Confirmação" message="Tem certeza que gerar todas as senhas?" icon="ui-icon-info" />
+				</p:commandButton>
+				
+				<p:separator/>
+
+				<pm:content>
+					<p:dataList type="inset" title="Lista de #{mesaMB.getResourcesBundle('cm.mesas')}" titleSwatch="#{mesaMB.temaLogado}"
+						value="#{mesaMB.entityList}" var="mesa" id="lista">
+						<f:attribute name="filter" value="true" />						
+						<p:column>
+							<h2>Mesa #{mesa.numeroMesa}</h2>
+							<h:outputText styleClass="ui-li-count" value="#{mesa.senha}" />
+						</p:column>
+					</p:dataList>
+				</pm:content>
+
+				<p:confirmDialog global="true">
+					<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="check">
+						<f:attribute name="swatch" value="b" />
+					</p:commandButton>
+					<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="delete">
+						<f:attribute name="swatch" value="e" />
+					</p:commandButton>
+				</p:confirmDialog>
+
+
+			</h:form>
+		</pm:view>
+	</pm:page>
+</f:view>

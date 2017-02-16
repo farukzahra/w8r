@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pm="http://primefaces.org/mobile"
+        contentType="text/html"
+        renderKitId="PRIMEFACES_MOBILE">
+    <pm:page title="Login" loadingMessage="Carregando"> 
+    	<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>       
+	    <pm:view swatch="#{loginMesaClienteMB.temaLogado}" id="main">
+            <pm:header swatch="#{loginMesaClienteMB.temaLogado}" title="Login #{loginMesaClienteMB.getResourcesBundle('cm.mesa')}">	
+            
+                <f:facet name="left">
+					<p:button value="Voltar" icon="back" href="principalempresa.jsf?reverse=true"  />
+				</f:facet>
+            </pm:header>
+	        <pm:content>
+	            <h:form id="formMain">
+	            
+	            	<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+	                
+	                <pm:field>
+    		 		    <p:outputLabel for="numeroMesa" value="#{loginMesaClienteMB.getResourcesBundle('cm.mesa')}: " />	
+	                    <h:selectOneMenu id="numeroMesa" value="#{loginMesaClienteMB.mesaSel}" required="true" converter="mesa" >
+	                    	<f:selectItems var="m" value="#{loginMesaClienteMB.mesasDisp}" itemLabel="#{m.numeroMesa}" itemValue="#{m}" />
+	                    </h:selectOneMenu>
+	                    <p:message for="numeroMesa"/>
+	                </pm:field>
+	                
+	                <pm:field>
+    		 		    <h:outputLabel for="login" value="Login: " />	            		 
+	                    <p:inputText id="login" value="#{loginMesaClienteMB.entity.login}" required="true"/>
+	                    <p:message for="login"/>
+	                </pm:field>
+	                
+	                <pm:field>
+		                <h:outputLabel for="senhaCliente" value="#{loginMesaClienteMB.getResourcesBundle('cm.senha')}: " />
+						<h:inputSecret id="senhaCliente" value="#{loginMesaClienteMB.entity.senha}" required="true" />
+						<p:message for="senhaCliente" />
+					</pm:field>
+	                <p:separator />
+	                <pm:field>
+                        <p:commandButton value="Login" icon="forward" action="#{loginMesaClienteMB.actionLogin}" 
+                        	process="formMain" update="formMain"/>    
+					</pm:field>
+					
+				</h:form>
+	    	</pm:content>
+	    					
+	    </pm:view>
+	</pm:page>
+</f:view>

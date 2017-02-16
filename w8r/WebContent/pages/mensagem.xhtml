@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+	<pm:page title="#{msg['cm.cardapio']}" loadingMessage="#{msg['cm.carregando']}">
+		<f:facet name="config">
+	    	$.mobile.listview.prototype.options.filterPlaceholder =  ' ';
+		</f:facet>
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+
+			<script type="text/javascript" src="#{request.contextPath}/primefaces/primefaces.js"></script>
+			<script type="text/javascript" src="#{request.contextPath}/primefaces/jquery/jquery.js"></script>
+			<script type="text/javascript" src="#{request.contextPath}/primefaces/editor/editor.js"></script>
+			<script type="text/javascript" src="#{request.contextPath}/primefaces/charts/charts.js"></script>
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/primefaces/primefaces.css"></link>
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/primefaces/editor/editor.css"></link>
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/primefaces/charts/charts.css"></link>
+		</f:facet>
+
+		<link href="#{request.contextPath}/emo/stylesheets/jquery.cssemoticons.css" media="screen" rel="stylesheet" type="text/css" />
+		<script src="#{request.contextPath}/emo/javascripts/jquery.cssemoticons.min.js" type="text/javascript"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('.msgMensagem').emoticonize({
+					delay : 800,
+					animate : false,
+				//exclude: 'pre, code, .no-emoticons'
+				});
+			})
+
+			function emos() {
+				$(document).ready(function() {
+					$('.msgMensagem').emoticonize({
+						delay : 800,
+						animate : false,
+					//exclude: 'pre, code, .no-emoticons'
+					});
+				})
+			}
+		</script>
+
+		<h:form id="form">
+			<p:poll listener="#{mensagemMB.reloadConversa}" id="poll" widgetVar="poll" update="listaMesasDialogo, dialogo" interval="30" />
+			
+			<pm:view id="viewMensagem" swatch="#{mensagemMB.temaLogado}">
+
+				<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+
+				<p:overlayPanel for="btnPanelContext" widgetVar="panelContext" my="right" at="right">
+					<h5>
+						<h:outputLabel for="msgs" value="#{msg['cm.msgs.dispon']}: " />
+						<h:outputText id="msgs" value="#{mensagemMB.mesaLogada.qtdeMensagensGanhas}" />
+					</h5>
+					<p:dataList id="listaMesasDialogo" styleClass="ui-li-custom" value="#{mensagemMB.mesasDispDialogo}" var="mesa">
+						<f:attribute name="filter" value="true" />
+						<h:commandLink update=":form:viewMensagem">
+							<h:outputFormat value="#{msg['cm.mesa']} #{mesa.numeroMesa}" id="numMesa">
+								<f:param value="#{metaLocalMB.entity.metaLocalSingular}" />
+							</h:outputFormat>
+							<h:outputText styleClass="ui-li-count" value="*" rendered="#{mesa.flEnviouNovaMsg}" />
+							<f:setPropertyActionListener value="#{mesa}" target="#{mensagemMB.mesaDestino}" />
+						</h:commandLink>
+					</p:dataList>
+				</p:overlayPanel>
+
+				<pm:header swatch="#{mensagemMB.temaLogado}" title="#{msg['cm.mensagens']}">
+					<f:facet name="right">
+						<p:button id="btnPanelContext" value="#{msg['cm.contatos']}" iconPos="right" icon="bars">
+							<f:param value="#{metaLocalMB.entity.metaLocalSingular}" />
+						</p:button>
+					</f:facet>
+					<f:facet name="left">
+						<p:button value="#{msg['cm.voltar']}" icon="back" href="cardapio.jsf" />
+					</f:facet>
+				</pm:header>
+
+				<pm:content>
+					<h:panelGroup rendered="#{mensagemMB.entity.mesaDestino != null}">
+
+						<h:outputFormat value="#{msg['cm.mesa']} #{mensagemMB.entity.mesaDestino.numeroMesa}" id="numMesa" styleClass="msgMensagem">
+							<f:param value="#{metaLocalMB.entity.metaLocalSingular}" />
+						</h:outputFormat>
+						<p:inputText maxlength="140" id="msgDes" value="#{mensagemMB.entity.descricao}" disabled="#{mensagemMB.mesaLogada.temCreditoMensagens == false}" />
+						<p:commandButton value="#{msg['cm.enviar']}" icon="check" update=":form:dialogo, :form:msgDes, :form:msgs"
+							actionListener="#{mensagemMB.enviarMensagem}" rendered="#{mensagemMB.mesaLogada.temCreditoMensagens}" oncomplete="emos();" />
+
+
+						<p:dataGrid id="dialogo" var="mensagem" value="#{mensagemMB.dialogoMesa}" columns="1" paginator="false" emptyMessage="" styleClass="dtMensagens">
+							<p:column>
+								<p:outputPanel styleClass="#{mensagem.mesaOrigem.id == mensagemMB.mesaLogada.id ? 'msgLogada' : 'msgEnviada'}">
+									<h:outputLabel value="Mesa #{mensagem.mesaOrigem.numeroMesa}(#{mensagem.horaEnvio}):" styleClass="msgData" />
+									<h:outputLabel value="#{mensagem.descricao}" styleClass="msgMensagem" />
+								</p:outputPanel>
+							</p:column>
+						</p:dataGrid>
+					</h:panelGroup>
+				</pm:content>
+			</pm:view>
+		</h:form>
+	</pm:page>
+</f:view>

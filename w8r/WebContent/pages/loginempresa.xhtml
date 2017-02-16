@@ -1,0 +1,48 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">	
+	<h:outputStylesheet name="w8rmobile.css" />
+	<pm:page title="Login" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+
+		<pm:view swatch="#{loginEmpresaMB.temaLogado}" id="main" >
+			<pm:header title="Login Empresa" >
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="/pages/index.jsf?reverse=true"  />
+				</f:facet>
+			</pm:header>
+			<pm:content>
+				<h:form id="formMain">
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+					<pm:field>
+						<h:outputLabel for="email" value="Email: " />
+						<h:inputText id="email" value="#{loginEmpresaMB.entity.email}"
+							required="true" />
+						<p:message for="email"/>
+					</pm:field>
+	                
+	                <pm:field>
+		                <h:outputLabel for="senhaEmpresa" value="Senha : " />
+						<h:inputSecret id="senhaEmpresa"
+							value="#{loginEmpresaMB.entity.senha}" required="true" />
+						<p:message for="senhaEmpresa"/>
+					</pm:field>
+	                <p:separator />
+	                <pm:field>
+                        <p:commandButton value="Login" icon="forward" 
+                        	action="#{loginEmpresaMB.actionLoginEmpresa}"/>
+                             
+					</pm:field>
+					
+				</h:form>
+	    	</pm:content>
+	    					
+	    </pm:view>
+	</pm:page>
+</f:view>

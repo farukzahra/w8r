@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/default.xhtml">
+	<ui:define name="article">
+	<style>
+	.ui-draggable{
+		border : 1px solid black;
+		border-radius : 6px 6px 6px 6px;
+		padding: 4px 4px 4px 4px;
+		background-color: #B29980;
+	}
+	
+	</style>
+	
+	
+		<p:panel id="pnMain" header="Mapa Empresa">
+
+			<p:messages showDetail="true" autoUpdate="true" globalOnly="true" id="growl" />
+			<p:effect type="highlight" event="load" >  
+	            <f:param name="color" value="'red'" />  
+	        </p:effect>
+	        
+	        
+	        <p:dataGrid id="mesasDisp" value="#{plantaSalaoMB.mesas}" var="mesa" columns="4" > 
+	        	<f:facet name="header">Mesas</f:facet> 
+                <p:column>  
+                	<p:outputLabel id="mesa" value="M#{mesa.numeroMesa}"/>
+                	<p:draggable for="mesa" revert="true" scope="pontos" />
+                    <p:resizable for="mesa" widgetVar="#{mesa.id}">  
+				        <p:ajax listener="#{plantaSalaoMB.onResize}" partialSubmit="true" />  
+				    </p:resizable>
+                </p:column>  
+            </p:dataGrid>
+            	   
+                 
+			<p:fieldset id="fsMapa" legend="Mapa 2D Estabelecimento" style="width:#{plantaSalaoMB.tamX * 20}px;height:#{plantaSalaoMB.tamY * 20}px">
+				<p:dataGrid columns="#{plantaSalaoMB.tamX}" id="mapa" var="p" value="#{plantaSalaoMB.pontos}" style="width:#{plantaSalaoMB.tamX * 20}px;height:#{plantaSalaoMB.tamY * 20}px">			
+					<p:outputPanel id="ponto" value="">
+						<p:outputLabel id="mesaAdd" value="M#{p.mesa.numeroMesa}" style="border : 1px solid black; border-radius : 6px 6px 6px 6px; padding: #{p.mesa.comprimento}px #{p.mesa.largura}px #{p.mesa.comprimento}px #{p.mesa.largura}px; background-color: #B29980;" rendered="#{p.mesa != null}" />
+						<p:draggable for="mesaAdd" revert="true" scope="pontos" rendered="#{p.mesa != null}" />
+						<p:resizable for="mesaAdd" widgetVar="#{p.mesa.id}" rendered="#{p.mesa != null}">  
+					        <p:ajax listener="#{plantaSalaoMB.onResize}" partialSubmit="true" />  
+					    </p:resizable>
+						<p:droppable tolerance="touch" datasource=":cmForm:mesasDisp" scope="pontos" >  
+			                <p:ajax listener="#{plantaSalaoMB.onDrop}" partialSubmit="true" />  
+			            </p:droppable>
+       					<p:contextMenu for="mesaAdd" rendered="#{p.mesa != null}">   
+					        <p:menuitem value="Deletar" actionListener="#{plantaSalaoMB.delete}" update=":cmForm:mesasDisp :cmForm:fsMapa" 
+					        	icon="ui-icon-close" fragment="#{p.mesa.id}" partialSubmit="true" />
+					    </p:contextMenu> 
+       				</p:outputPanel>	       					       			
+		        </p:dataGrid> 
+		           	
+	        </p:fieldset>     	
+        	
+        	
+        </p:panel>
+
+	</ui:define>
+</ui:composition>

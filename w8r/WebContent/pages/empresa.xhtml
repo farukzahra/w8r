@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pm="http://primefaces.org/mobile"
+        contentType="text/html"
+        renderKitId="PRIMEFACES_MOBILE">
+
+    <pm:page title="Empresa" loadingMessage="Carregando" >    
+    	<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+	    <pm:view swatch="#{empresaMB.temaLogado}" id="mainView" >
+            <pm:header swatch="#{empresaMB.temaLogado}" title="Cadastro de Empresa">
+                <f:facet name="left"><p:button value="Voltar" icon="back" href="configuracao.jsf"/></f:facet>
+            </pm:header>
+			
+	        <pm:content>
+	            <h:form id="formEmpresa">
+	            	<p:growl showDetail="true" autoUpdate="true" globalOnly="true" />
+	            	<pm:field>
+	                    <h:outputLabel for="email" value="Email: "/>
+	                    <p:inputText id="email" value="#{empresaMB.entity.email}" required="true"/>
+	                    <p:message for="email" />
+	                </pm:field>
+	                
+	                <pm:field>
+		                <h:outputLabel for="senha" value="Senha : " />
+						<h:inputSecret id="senha" 
+							value="#{empresaMB.entity.senha}"
+							required="true" />
+						<p:message for="senha" />
+					</pm:field>
+	                
+	                <pm:field>
+	                    <h:outputLabel for="nome" value="Nome: "/>
+	                    <p:inputText id="nome" value="#{empresaMB.entity.nome}" required="true"/>
+	                    <p:message for="nome" />
+	                </pm:field>
+	                
+	                <pm:field>
+	                    <h:outputLabel for="descricao" value="Descricao: "/>
+	                    <p:inputTextarea id="descricao" value="#{empresaMB.entity.descricao}" />
+	                    <p:message for="descricao" />
+	                </pm:field>
+	                
+	                <pm:field>
+	                    <h:outputLabel for="lingua" value="Língua Principal: "/>
+	                    <h:selectOneRadio value="#{empresaMB.entity.linguaPadrao}">
+	                    	<f:selectItems value="#{empresaMB.linguasDisponiveis}" 
+	                    	var="lingua" itemLabel="#{lingua.label}" itemValue="#{lingua}" />
+	                    </h:selectOneRadio>
+	                    <p:message for="lingua" />
+	                </pm:field>
+	                
+	                <pm:field>
+	                    <h:outputLabel for="modMsg" value="Módulo Mensagem: "/>
+	                    <h:selectBooleanCheckbox value="#{empresaMB.entity.flModuloMensagem}" id="modMsg" />
+	                    <p:message for="modMsg" />
+	                </pm:field>
+	                
+	                <pm:field>
+	                    <h:outputLabel for="status" value="Status: "/>
+	                    <h:selectOneRadio id="status" value="#{empresaMB.entity.status}" required="true" >
+	                        <f:selectItem itemLabel="Ativo" itemValue="A" />
+	                        <f:selectItem itemLabel="Inativo" itemValue="I" />
+	                    </h:selectOneRadio>
+	                    <p:message for="descricao" />
+                	</pm:field>
+                	<p:separator />
+                	<h:panelGrid columns="3" >	
+                		<p:commandButton value="Novo" actionListener="#{empresaMB.actionNew}" process=":formEmpresa" />
+                		<p:commandButton id="persist" value="Salvar" update=":formEmpresa" process="formEmpresa"
+						actionListener="#{empresaMB.actionPersist}" />   
+						<p:commandButton id="remove" value="Remover" update=":formEmpresa" process="@this"
+						actionListener="#{empresaMB.actionRemove}" />    
+					</h:panelGrid>		
+						 		
+			 		<p:dataList  type="inset" title="Lista de Empresas" titleSwatch="#{empresaMB.temaLogado}" value="#{empresaMB.entityList}" var="empresa">			 		                   		
+				        <f:facet name="header">Empresas</f:facet>
+				        <p:column>  	
+				        	<p:commandLink value="#{empresa.nome}" update=":formEmpresa" process="@this" >
+								<f:setPropertyActionListener value="#{empresa}" target="#{empresaMB.entity}" />
+							</p:commandLink>
+				        </p:column>						    
+	               	</p:dataList>
+              </h:form>  	
+            </pm:content>				
+	    </pm:view>
+	</pm:page>
+</f:view>

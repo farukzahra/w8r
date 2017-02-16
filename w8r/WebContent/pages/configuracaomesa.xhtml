@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fb="http://www.facebook.com/2008/fbml"
+	xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Configuração Mesa">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<f:facet name="postinit">
+            <h:outputScript library="primefaces" name="gmap/gmap.js" />
+            <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+ 		</f:facet>
+		
+		<pm:view swatch="#{cardapioMB.temaLogado}" id="main">
+			<pm:header swatch="#{cardapioMB.temaLogado}" title="#{msg['cm.confmesa']}">
+				<f:facet name="left">
+					<p:button value="#{msg['cm.voltar']}" icon="back" href="cardapio.jsf?faces-redirect=true" />
+				</f:facet>				
+				
+			</pm:header>
+			<pm:content>
+				<h:form>
+					<pm:field rendered="#{pedidoMB.empresaReferencia.flModuloPedido}">
+						<h:outputLabel for="lingua" value="#{msg['cm.lingua']} :" />
+						<h:selectOneMenu value="#{cardapioMB.linguaLogada}" id="lingua" 
+								valueChangeListener="#{cardapioMB.selecionaLinguaMesa}" onchange="submit()">
+								<f:selectItems value="#{cardapioMB.linguasDisponiveis}"
+									var="lingua" itemLabel="#{lingua.label}" itemValue="#{lingua}" />
+	
+						</h:selectOneMenu>
+						<p:message for="lingua" />
+					</pm:field>	
+					
+					<pm:field>
+						<h:outputLabel for="tema" value="#{msg['cm.tema']} :" />
+						<h:selectOneMenu value="#{cardapioMB.temaLogado}" id="tema"
+								valueChangeListener="#{cardapioMB.selecionaTemaMesa}" onchange="submit()">
+								<f:selectItems value="#{cardapioMB.temasDisponiveis}"
+									var="tema" itemLabel="#{tema}" itemValue="#{tema}" />
+	
+						</h:selectOneMenu>
+						<h:message for="tema" />
+					</pm:field>	
+					
+			    
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

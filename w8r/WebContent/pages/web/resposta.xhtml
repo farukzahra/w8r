@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/default.xhtml">
+	<ui:define name="article" >
+		<p:panel id="pnMain" 
+			header="Cadastro de Respostas (#{respostaMB.empresaLogada.nome})">
+
+			<p:messages showDetail="true" autoUpdate="true" globalOnly="true" />
+			<p:effect type="highlight" event="load" >  
+	            <f:param name="color" value="'red'" />  
+	        </p:effect>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="pergunta" value="Pergunta: " />
+				<p:selectOneMenu value="#{respostaMB.entity.pergunta}"
+					required="true" id="pergunta" converter="pergunta">
+					<f:selectItem itemValue="#{null}" itemLabel="Selecione uma opção" />
+					<f:selectItems value="#{respostaMB.perguntas}" var="pergunta"
+						itemLabel="#{pergunta.descricao}" itemValue="#{pergunta}" />
+				</p:selectOneMenu>
+				<p:message for="pergunta" />					
+			</h:panelGroup>						
+
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="descricao" value="Descrição: " />
+				<p:inputTextarea id="descricao" autoResize="false"
+					value="#{respostaMB.entity.descricao}" cols="50" required="true"/>
+				<p:message for="descricao" />
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField">
+				<h:outputLabel for="descricao" value="&nbsp;" />						
+				<p:commandButton value="Tradução Automática" action="#{respostaMB.traduzCampos}" update="traducao" process="@this,descricao" 
+								 widgetVar="traducaoAuto" onclick="pbAjax.start();"/>
+				<p:progressBar widgetVar="pbAjax" ajax="true" value="#{respostaMB.progress}" style="width:35%;  display: inline-block;" interval="500"/>
+			</h:panelGroup>
+			
+			<h:panelGroup styleClass="cardapioField" >
+				<h:outputLabel for="traducao" value="Traduções: " />
+				<p:tabView value="#{respostaMB.traducoes}" var="traducao" id="traducao" >				
+					<p:tab title="#{traducao.lingua.label}">	
+						<h:panelGroup styleClass="cardapioField">
+							<h:outputLabel for="descricao" value="Descrição: " />
+							<p:inputTextarea id="descricao" autoResize="false"
+								value="#{traducao.descricao}" cols="50" />
+							<p:message for="descricao" styleClass="msg" />
+						</h:panelGroup>
+					</p:tab>				
+				</p:tabView>
+			</h:panelGroup>
+
+			<p:separator />
+			
+			<p:panel styleClass="cardapioButton">
+				<p:commandButton id="persist" icon="ui-icon ui-icon-disk" value="Salvar" actionListener="#{respostaMB.actionPersist}" update="@form" process=":cmForm:pnMain"/>
+				<p:commandButton id="remove" icon="ui-icon ui-icon-closethick" value="Remover" actionListener="#{respostaMB.actionRemove}" update="@form" process="@this"/>					
+				<p:commandButton id="new" icon="ui-icon ui-icon-document" value="Limpar" actionListener="#{respostaMB.actionNew}" immediate="true"  update="@form"/>
+				
+			</p:panel>
+
+		</p:panel>
+		
+		<p:dataTable emptyMessage="" value="#{respostaMB.entityList}"
+			var="resposta" rows="10" paginator="true"
+			selection="#{respostaMB.entity}" selectionMode="single"
+			rowKey="#{resposta}" paginatorPosition="top"
+			paginatorAlwaysVisible="false">
+			<p:ajax event="rowSelect" update=":cmForm:pnMain"/>
+			<f:facet name="header">Respostas</f:facet>
+			<p:column filterBy="#{resposta.pergunta.descricao}" filterMatchMode="contains"
+				headerText="Pergunta">
+				<h:outputText value="#{resposta.pergunta.descricao}" />
+			</p:column>
+			<p:column filterBy="#{resposta.descricao}" filterMatchMode="contains"
+				headerText="Descrição Resposta">
+				<h:outputText value="#{resposta.descricao}" />
+			</p:column>
+		</p:dataTable>
+	</ui:define>
+</ui:composition>

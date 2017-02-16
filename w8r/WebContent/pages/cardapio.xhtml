@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:pm="http://primefaces.org/mobile" xmlns:ui="http://java.sun.com/jsf/facelets" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+
+	<pm:page title="#{msg['cm.cardapio']}" loadingMessage="#{msg['cm.carregando']}">
+		<f:facet name="config">
+	    	$.mobile.listview.prototype.options.filterPlaceholder =  ' ';
+		</f:facet>
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+		<script src="../galleria/galleria-1.2.6.min.js"></script>
+		
+		<script>
+			$(document).ready(
+					function() {
+						if ($.browser.mozilla) {
+							$.each($('.corrigirImagem'), function(key, value) {
+								console.log(value.src);
+								value.src = value.src.replace(
+										'w8r/pages/%5Cimages/', 'images/');
+								console.log(value.src);
+							});
+						}
+						$('.ui-li .ui-btn-text a.ui-link-inherit').css('white-space','normal');
+					});
+		</script>
+		<pm:view swatch="#{cardapioMB.temaLogado}" id="viewMensagem" contentType="text/html">
+			<pm:header swatch="#{cardapioMB.temaLogado}"
+				title="#{cardapioMB.getResourcesBundle('cm.cardapio')} #{cardapioMB.getResourcesBundle('cm.mesa')} #{cardapioMB.mesaLogada.numeroMesa}">
+				<f:facet name="left">
+					<p:button value="#{msg['cm.logoff']}" icon="alert" role="pop" href="logincliente.jsf" transition="pop" />
+				</f:facet>
+				<pm:navBar>
+					<p:button value="#{msg['cm.meuspedidos']}" icon="search" href="pedidosmesa.jsf" rendered="#{cardapioMB.empresaReferencia.flModuloPedido and cardapioMB.fazerPedidos}" />
+					<p:button value="#{msg['cm.mensagens']}" icon="bars" href="mensagem.jsf" rendered="#{cardapioMB.empresaReferencia.flModuloMensagem and cardapioMB.fazerPedidos}" />
+					<p:button value="#{msg['cm.garcom']}" icon="alert" href="solicitacao.jsf" rendered="#{cardapioMB.empresaReferencia.flModuloPedido and cardapioMB.fazerPedidos}" />
+					<p:button value="#{msg['cm.config']}" icon="gear" role="pop" href="configuracaomesa.jsf" transition="pop" />
+				</pm:navBar>
+			</pm:header>
+			<pm:content>
+				<style>
+.ui-galleria {
+	margin: 0 auto;
+}
+
+.ui-galleria-nav-prev {
+	background-position: -144px 50%;
+	background-position-x: -144px;
+	background-position-y: 50%;
+}
+
+.ui-galleria-nav-next {
+	background-position: -108px 50%;
+	background-position-x: -108px;
+	background-position-y: 50%;
+}
+
+.ui-autocomplete-panel {
+	background-color: white;
+	font-family: Verdana, sans-serif;
+	font-size: large;
+}
+
+td.connect_widget_vertical_center {
+	font-size: 15px;
+}
+
+.cred {
+	margin-top: 20px;
+	font-size: 12px;
+	color: #555
+}
+/* This rule is read by Galleria to define the gallery height: */
+.galleria-container {
+	background: transparent;
+}
+
+.galleria-image-nav-right {
+	color: black;
+}
+
+.galleria-image-nav-left {
+	
+}
+/* some extra styles for the layer */
+.galleria-layer div {
+	text-align: left;
+	top: 10px;
+	left: 10px;
+	padding: 10px;
+	position: relative;
+	background: url(../images/bg.png);
+	color: #fff
+}
+
+.galleria-layer h2 {
+	margin: 0 0 8px;
+	font-size: 22px;
+	line-height: 1;
+}
+
+.galleria-layer p {
+	margin: 0
+}
+
+.galleria-stage {
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	left: 10px;
+	right: 10px;
+	overflow: hidden;
+}
+</style>
+
+				<h:form id="formLista">
+
+					<p:growl showDetail="true" autoUpdate="true" globalOnly="true" id="messages" />
+
+					<h:form id="formMain" rendered="#{cardapioMB.propaganda}">
+
+						<div class="content" align="center">
+							<div id="galleria">
+								<ui:repeat var="propaganda" value="#{cardapioMB.propagandas}">
+									<div class="image">
+										<img src="/images#{propaganda.pathImagem}" />
+									</div>
+								</ui:repeat>
+							</div>
+						</div>
+					</h:form>
+					<br/>
+
+					<p:autoComplete id="acProduto" value="#{pedidoMB.entity.produto}" completeMethod="#{cardapioMB.completaProduto}" var="produto"
+						itemValue="#{produto}" itemLabel="#{produto.nome}" converter="produto" label="Produtos..." queryDelay="1500" cacheTimeout="60000"
+						emptyMessage="" minQueryLength="2">
+						<p:ajax event="itemSelect" listener="#{cardapioMB.selecionaProduto}" />
+					</p:autoComplete>
+
+					<p:dataList type="inset" titleSwatch="#{cardapioMB.temaLogado}" value="#{cardapioMB.gruposProdutos}" var="grupoProduto">
+						<f:facet name="header">
+							<h:outputText value="#{msg['cm.categoria']}" />
+						</f:facet>
+						<p:column>
+							<h:commandLink action="produtosgrupo.jsf">
+								<p:graphicImage id="imagemPreViewPrinc" rendered="#{grupoProduto.pathImagem != null}" value="\images#{grupoProduto.pathImagem}" height="80" width="100" styleClass="corrigirImagem" />
+								<f:setPropertyActionListener value="#{grupoProduto}" target="#{cardapioMB.grupoProdutoSelecionado}" />
+								<p:graphicImage id="imagemPreViewPrincNoData" rendered="#{grupoProduto.pathImagem == null}" value="/images/sem_imagem.png" height="80" width="100" />
+								<h:outputLabel value="#{grupoProduto.nome}" />
+								<f:setPropertyActionListener value="#{produto}" target="#{pedidoMB.entity.produto}" />
+								<f:param name="idGrupo" value="#{grupoProduto.id}" />
+							</h:commandLink>
+						</p:column>
+					</p:dataList>
+				</h:form>
+				<script type="text/javascript">
+					Galleria
+							.loadTheme('../galleria/themes/classic/galleria.classic.js');
+					$('#galleria').galleria({
+						transition : 'fadeslide',
+						imageCrop : false,
+						height : 200,
+						autoplay : 5500,
+						swipe : true,
+					    thumbnails: false,
+						popupLinks : true,
+
+						dataConfig : function(img) {
+							// return the layer data, based on our HTML structure
+							return {
+								layer : $(img).parent().next('.layer').html()
+							}
+						}
+					});
+				</script>
+
+			</pm:content>
+		</pm:view>
+	</pm:page>
+
+</f:view>

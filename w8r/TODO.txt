@@ -1,0 +1,27 @@
+
+- ID PEDIDO, tela de cliente e cozinha
+
+- Mudar minha senha, meus dados
+
+- Trocar mesa x por você / You Quando sou eu que mandei mensagem
+
+- NOVOS PEDIDOS DO RAMALHO (16/04/2014)
+---------------------------------------
++ Tela pedidos via tablet 
+  - Bugada, quando muda coluna e da o refresh do pull volta as colunas originais,| Rever as colunas dinamicas do pr - (Retirei este opção)
+  - Melhorar leiaute da observação (ok)
+  - ordenar por data mais antiga para mais nova (ok)
+  - colocar o campo novo localização (ok)
+  - Botão de imprimr (ok)
+
++ Tela de admin de pedidos por mesa
+  - Botão de imprimir
+  
++ Novo campo localizador
+  - Criar o campo e pedir ele no login (ok)
+  - printar o campo na tela de pedidos (ok)
+
++ IDIOMA DESDE A PAGINA INICIAL
+  - bandeira dos idiomas na pagina inicial (ok)
+    + Traduzir tudo ate na hora de logar (ok)
+    + Já setar o idioma do cliente qdo ele escolher (ok)

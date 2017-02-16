@@ -1,0 +1,83 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile" contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Login" loadingMessage="Carregando">
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<pm:view swatch="#{loginClienteMB.temaLogado}" id="main">
+			<pm:header title="#{msg['cm.cliente.solicitar.permissao']}">
+				<f:facet name="left">
+					<p:button value="#{msg['cm.voltar']}" icon="back"
+						href="logincliente.jsf?faces-redirect=true" />
+				</f:facet>
+			</pm:header>
+			<pm:content>
+				<h:form id="formMain">
+
+					<pm:field>
+						<h:outputFormat value="#{msg['cm.mesa']}">
+							<f:param value="#{metaLocalMB.entity.metaLocalSingular}" />
+						</h:outputFormat>
+
+						<h:selectOneMenu id="mesa" converter="mesa"
+							value="#{loginClienteMB.mesaSel}" required="true">
+							<f:selectItem itemValue="#{null}"
+								itemLabel="Selecione uma opção" />
+							<f:selectItems value="#{loginClienteMB.mesas}" var="mesa"
+								itemLabel="#{msg['cm.mesa']} #{mesa.numeroMesa}"
+								itemValue="#{mesa}" />
+						</h:selectOneMenu>
+						<p:message for="mesa" />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="email" value="#{msg['cm.email']}: *" />
+						<p:inputText id="email" value="#{loginClienteMB.entity.email}"
+							disabled="#{not empty loginClienteMB.entity.email}" />
+						<p:message for="email" />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="nome" value="#{msg['cm.nome']}: " />
+						<p:inputText id="nome" value="#{loginClienteMB.entity.nome}"
+							disabled="#{loginClienteMB.entity.nome != null}" />
+						<p:message for="nome" />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="documento" value="#{msg['cm.documento']}: " />
+						<p:inputText id="documento"
+							value="#{loginClienteMB.entity.documento}"
+							disabled="#{loginClienteMB.entity.documento != null}" />
+						<p:message for="documento" />
+					</pm:field>
+
+					<pm:field>
+						<h:outputLabel for="flSexo" value="#{msg['cm.sexo']}: " />
+						<h:selectOneRadio id="flSexo"
+							value="#{loginClienteMB.entity.sexo}" required="true"
+							disabled="#{loginClienteMB.entity.sexo != null}">
+							<f:selectItem itemLabel="#{msg['cm.sexo.masc']}" itemValue="M" />
+							<f:selectItem itemLabel="#{msg['cm.sexo.fem']}" itemValue="F" />
+						</h:selectOneRadio>
+						<p:message for="flSexo" />
+					</pm:field>
+
+					<p:separator />
+					<pm:field>
+						<p:commandButton value="#{msg['cm.enviar']}" icon="forward"
+							process="formMain" update="formMain"
+							actionListener="#{loginClienteMB.enviarSolicitacao}" />
+					</pm:field>
+
+				</h:form>
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>

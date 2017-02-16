@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile"
+	contentType="text/html"
+	renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Configuração" loadingMessage="Carregando" >
+		<f:facet name="preinit">
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/resources/w8rmobile.css" />
+		</f:facet>
+		<pm:view swatch="#{principalEmpresaMB.temaLogado}" id="main">
+			<pm:header swatch="#{principalEmpresaMB.temaLogado}"
+				title="Configurações (#{principalEmpresaMB.empresaLogada.nome})">
+				<f:facet name="left">
+					<p:button value="Voltar" icon="back" href="principalempresa.jsf" />
+				</f:facet>
+			</pm:header>
+			<pm:content>				
+					
+						<p:button value="Empresas"  href="empresa.jsf" icon="gear" rendered="#{principalEmpresaMB.empresaLogada.perfil == Empresa.perfilAdministrador}"/>
+						
+						<p:button value="#{mesaMB.getResourcesBundle('cm.mesas')}"  href="mesa.jsf" icon="gear" />					
+						<p:button value="Listar #{mesaMB.getResourcesBundle('cm.mesas')}"  href="listamesa.jsf" icon="gear" />
+						<p:button value="Grupos"  href="grupoproduto.jsf" icon="gear"/>
+						<p:button value="Produtos"  href="produto.jsf" icon="gear" />												
+						<p:button value="Perguntas"  href="pergunta.jsf" icon="gear"/>	
+						<p:button value="Respostas"  href="resposta.jsf" icon="gear"/>
+						<p:button value="Vincular Perguntas"  href="produtopergunta.jsf" icon="gear"/>
+									
+			</pm:content>
+		</pm:view>
+	</pm:page>
+</f:view>
