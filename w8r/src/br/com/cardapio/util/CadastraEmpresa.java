@@ -21,7 +21,12 @@ import br.com.cardapio.exception.RegistroExistenteException;
 public class CadastraEmpresa {
 
 	public static void main(String[] args) {
-		cadastrarEmpresa(args);
+	    String[] args_ = new String[4];
+	    args_[0] = "Restaurante 1";
+	    args_[1] = "Restaurante 1";
+	    args_[2] = "adm@restaurante1.com.br";
+	    args_[3] = "senha01";
+		cadastrarEmpresa(args_);
 	}
 
 	private static void deletarEmpresa(String[] args) {

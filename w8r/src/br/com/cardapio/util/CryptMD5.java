@@ -51,7 +51,7 @@ public class CryptMD5 {
 	
 	public static void main(String[] args){
 //		try {
-			System.out.println(CryptMD5.encrypt("rama2"));
+			System.out.println(CryptMD5.encrypt("senha01"));
 			//CryptMD5.resetarSenhaMesa("matriz@teste", 1,"1");
 //		} catch (BancoDadosException e) {
 //			// TODO Auto-generated catch block
